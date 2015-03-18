@@ -1,4 +1,4 @@
-[submodule "lib/sails-mysql-transactions-waterline"]
-	path = lib/sails-mysql-transactions-waterline
-	url = https://github.com/postmanlabs/sails-mysql-transactions-waterline.git
+[submodule "externals/sails-mysql-transactions-waterline"]
+	path = externals/sails-mysql-transactions-waterline
+	url = https://shamasis@github.com/postmanlabs/sails-mysql-transactions-waterline.git
 	branch = master-postman
