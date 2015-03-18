@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/postmanlabs/sails-mysql-transactions",
   "dependencies": {
-    "lodash": "^3.5.0",
-    "mysql": "^2.5.5",
-    "sails-mysql": "^0.10.11"
+    "lodash": "3.5.0",
+    "mysql": "2.5.5",
+    "sails-mysql": "0.10.11"
+  },
+  "devDependencies": {
   }
 }
