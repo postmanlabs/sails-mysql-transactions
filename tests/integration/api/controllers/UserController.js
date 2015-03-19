@@ -133,7 +133,7 @@ module.exports = {
 
         User.findOne({
           id: users[0].id
-        }, undefined, trans.connection().transactionID)
+        }, undefined, trans.connection().transactionId)
           .populate('collections')
           .exec(function (err, user) {
             if (err) {
@@ -147,7 +147,7 @@ module.exports = {
                 if (err) { return cb(err); }
 
                 collection.name += ' - updated';
-                collection.transactionID = trans.connection().transactionID;
+                collection.transactionId = trans.connection().transactionId;
                 collection.save(function (err, collection) {
                   return cb(err);
                 });
@@ -214,12 +214,12 @@ module.exports = {
       }
 
       User
-        .findOne(req.param('id'), undefined, trans.connection().transactionID)
+        .findOne(req.param('id'), undefined, trans.connection().transactionId)
         .populate('collections')
         .then(function (user) {
           var requests = Request.find({
             collection: _.pluck(user.collections, 'id')
-          }, undefined, undefined, trans.connection().transactionID)
+          }, undefined, undefined, trans.connection().transactionId)
             .then(function (requests) {
               return requests;
             });
@@ -228,7 +228,7 @@ module.exports = {
           return [_.omit(user, 'collections'), collections, requests];
         })
         .spread(function (user, collections, requests) {
-          user.transactionID = trans.connection().transactionID; // @todo - inject
+          user.transactionId = trans.connection().transactionId; // @todo - inject
 
           Request.destroy(trans.act(_.pluck(requests, 'id')))
             .then(function () {

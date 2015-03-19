@@ -45,7 +45,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+      Team.findOne(req.param('id'), undefined, trans.connection().transactionId)
         .populate('members')
         .exec(function (err, team) {
           if (err) {
@@ -54,7 +54,7 @@ module.exports = {
           }
 
           team.members.add(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          team.transactionId = trans.connection().transactionId;
           team.save(function (err, team) {
             if (err) {
               trans.rollback();
@@ -75,7 +75,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+      Team.findOne(req.param('id'), undefined, trans.connection().transactionId)
         .populate('members')
         .exec(function (err, team) {
           if (err) {
@@ -84,7 +84,7 @@ module.exports = {
           }
 
           team.members.remove(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          team.transactionId = trans.connection().transactionId;
           team.save(function (err, team) {
             if (err) {
               trans.rollback();
