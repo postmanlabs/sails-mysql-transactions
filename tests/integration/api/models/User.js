@@ -24,7 +24,7 @@ module.exports = {
       collection: 'Team',
       via: 'members'
     },
-    transactionId: {
+    transactionID: {
       type: 'string'
     }
   }

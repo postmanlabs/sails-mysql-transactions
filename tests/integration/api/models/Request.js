@@ -18,7 +18,7 @@ module.exports = {
     collection: {
       model: 'Collection'
     },
-    transactionId: {
+    transactionID: {
       type: 'string'
     },
     updated: {

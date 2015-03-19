@@ -19,7 +19,7 @@ module.exports = {
       collection: 'Request',
       via: 'collection'
     },
-    transactionId: {
+    transactionID: {
       type: 'string'
     }
   },

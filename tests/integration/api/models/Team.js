@@ -17,7 +17,7 @@ module.exports = {
       via: 'teams',
       dominant: true
     },
-    transactionId: {
+    transactionID: {
       type: 'string'
     }
   }
