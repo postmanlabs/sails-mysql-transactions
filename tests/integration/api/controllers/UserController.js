@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var transaction = require('../../../../index').Transaction;
+var transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   /**
@@ -18,7 +18,7 @@ module.exports = {
    */
   create: function (req, res) {
 
-    User.startTransaction(function (err, trans) {
+    transaction.start(function (err, trans) {
       if (err) {
         trans.rollback();
         return res.serverError(err);
@@ -133,7 +133,7 @@ module.exports = {
 
         User.findOne({
           id: users[0].id
-        }, undefined, trans.connection().transactionID)
+        }, undefined, trans.id())
           .populate('collections')
           .exec(function (err, user) {
             if (err) {
@@ -147,7 +147,7 @@ module.exports = {
                 if (err) { return cb(err); }
 
                 collection.name += ' - updated';
-                collection.transactionID = trans.connection().transactionID;
+                trans.act(collection);
                 collection.save(function (err, collection) {
                   return cb(err);
                 });
@@ -214,12 +214,12 @@ module.exports = {
       }
 
       User
-        .findOne(req.param('id'), undefined, trans.connection().transactionID)
+        .findOne(req.param('id'), undefined, trans.id())
         .populate('collections')
         .then(function (user) {
           var requests = Request.find({
             collection: _.pluck(user.collections, 'id')
-          }, undefined, undefined, trans.connection().transactionID)
+          }, undefined, undefined, trans.id())
             .then(function (requests) {
               return requests;
             });
@@ -228,7 +228,7 @@ module.exports = {
           return [_.omit(user, 'collections'), collections, requests];
         })
         .spread(function (user, collections, requests) {
-          user.transactionID = trans.connection().transactionID; // @todo - inject
+          trans.act(user);
 
           Request.destroy(trans.act(_.pluck(requests, 'id')))
             .then(function () {

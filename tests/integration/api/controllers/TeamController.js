@@ -5,13 +5,13 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var transaction = require('../../../../index').Transaction;
+var transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   create: function (req, res) {
     transaction.start(function (err, trans) {
       if (err) {
-        trans.rollback();
+        trans && trans.rollback();
         return res.serverError(err);
       }
 
@@ -45,7 +45,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+      Team.findOne(req.param('id'), undefined, trans.id())
         .populate('members')
         .exec(function (err, team) {
           if (err) {
@@ -54,7 +54,8 @@ module.exports = {
           }
 
           team.members.add(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          team.transactionID = trans.id();
+
           team.save(function (err, team) {
             if (err) {
               trans.rollback();
@@ -75,7 +76,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+      Team.findOne(req.param('id'), undefined, trans.id())
         .populate('members')
         .exec(function (err, team) {
           if (err) {
@@ -84,7 +85,7 @@ module.exports = {
           }
 
           team.members.remove(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          trans.act(team);
           team.save(function (err, team) {
             if (err) {
               trans.rollback();
