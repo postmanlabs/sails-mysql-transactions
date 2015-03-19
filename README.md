@@ -12,11 +12,7 @@ already installed in your package.
 
 
 2. If you already have `sails-mysql` installed, it might interfere with operations of this module. Remove it from your 
-`package.json` and uninstall the same.
-
-```terminal
-npm remove sails-mysql
-```
+`package.json` and uninstall the same using `npm remove sails-mysql`.
 
 3. This package installs successfully only when sails is already installed in the package. If the package is already installed, then simply run `npm install sails-mysql-transactions --save`, otherwise run `npm install` and it will take 
 care of rest.
@@ -33,11 +29,13 @@ Do check SailsJS compatibility list before upgrading your Sails version while al
 The integration test Sails App located in `tests/integration` directory of this repository has a fully functional
 installation.
 
-### Sails `config/local.js`
+### Sails config/local.js
 
-```
-{
-	connections: {
+```js
+module.exports = {
+  /* your other config stay as is */
+  
+  connections: {
 		mySQLT: {
 			adapter: 'sails-mysql-transactions',
 			host: '{{your-db-host}}',
@@ -54,7 +52,7 @@ installation.
 }
 ```
 
-### Add `transactionId` to all models
+### Add transactionId column to all models
 
 ```js
 module.exports = {
