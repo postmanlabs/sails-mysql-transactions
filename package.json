@@ -29,5 +29,8 @@
     "sails-mysql": "0.10.11"
   },
   "devDependencies": {
+  },
+  "scripts": {
+    "postinstall": "scripts/postinstall-inject.sh"
   }
 }
