@@ -18,19 +18,19 @@ module.exports = {
    */
   create: function (req, res) {
 
-    User.startTransaction(function (err, trans) {
+    transaction.start(function (err, trans) {
       if (err) {
         trans.rollback();
         return res.serverError(err);
       }
 
-      User.create(trans.act(req.params.all()), function (err, user) {
+      User.create(trans.wrap(req.params.all()), function (err, user) {
         if (err) {
           trans.rollback();
           return res.serverError(err);
         }
 
-        Collection.create(trans.act({
+        Collection.create(trans.wrap({
           user: user,
           name: 'collection:' + user.id
         }), function (err, collection) {
@@ -39,7 +39,7 @@ module.exports = {
             return res.serverError(err);
           }
 
-          Request.create(trans.act({
+          Request.create(trans.wrap({
             name: 'request:' + user.id + ':' + collection.id,
             user: user
           }), function (err, request) {
@@ -125,7 +125,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      User.update(req.param('id'), trans.act(req.params.all()), function (err, users) {
+      User.update(req.param('id'), trans.wrap(req.params.all()), function (err, users) {
         if (err) {
           trans.rollback();
           return res.serverError(err);
@@ -143,7 +143,7 @@ module.exports = {
 
             async.each(user.collections, function (collection, cb) {
               if (err) { return cb(err); }
-              Request.update({collection: collection.id}, trans.act({updated: true})).exec(function (err, requests) {
+              Request.update({collection: collection.id}, trans.wrap({updated: true})).exec(function (err, requests) {
                 if (err) { return cb(err); }
 
                 collection.name += ' - updated';
@@ -230,9 +230,9 @@ module.exports = {
         .spread(function (user, collections, requests) {
           user.transactionId = trans.connection().transactionId; // @todo - inject
 
-          Request.destroy(trans.act(_.pluck(requests, 'id')))
+          Request.destroy(trans.wrap(_.pluck(requests, 'id')))
             .then(function () {
-              return Collection.destroy(trans.act(_.pluck(collections, 'id')));
+              return Collection.destroy(trans.wrap(_.pluck(collections, 'id')));
             })
             .then(function () {
               return user.destroy();
@@ -245,8 +245,8 @@ module.exports = {
             });
 
           //Promise.all([
-          //  Request.destroy(trans.act(_.pluck(requests, 'id'))),
-          //  Collection.destroy(trans.act(_.pluck(collections, 'id'))),
+          //  Request.destroy(trans.wrap(_.pluck(requests, 'id'))),
+          //  Collection.destroy(trans.wrap(_.pluck(collections, 'id'))),
           //  user.destroy()
           //])
         })

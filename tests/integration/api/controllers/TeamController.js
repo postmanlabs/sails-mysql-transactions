@@ -5,23 +5,25 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var transaction = require('sails-mysql-transactions').Transaction;
+var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   create: function (req, res) {
-    transaction.start(function (err, trans) {
+    // start a transaction
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      Team.create(trans.act(req.params.all()), function (err, team) {
+      // create a new team instance in a transactional way.
+      Team.transact(transaction).create(req.params.all(), function (err, team) {
         if (err) {
-          trans.rollback();
+          transaction.rollback();
           return res.serverError(err);
         }
 
-        trans.commit();
+        transaction.commit();
         return res.json(team);
       });
     });
