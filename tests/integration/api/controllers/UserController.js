@@ -131,54 +131,35 @@ module.exports = {
           return res.serverError(err);
         }
 
-        User.transact(transaction).findOne(users[0].id, function (err, user) {
-          async.each(user.collections, function (collection, next) {
-            console.log(collection);
-
-            next();
-          }, function (err) {
+        User.transact(transaction).findOne(users[0].id)
+          .populate('collections')
+          .exec(function (err, user) {
             if (err) {
               transaction.rollback();
               return res.serverError(err);
             }
 
-            transaction.commit();
-            return res.json(user);
-          });
-        });
+            async.each(user.collections, function (collection, cb) {
+              if (err) { return cb(err); }
+              Request.transact(transaction)
+                .update({collection: collection.id}, {updated: true})
+                .exec(function (err, requests) {
+                  if (err) { return cb(err); }
 
-        //User.transact(transaction).findOne(users[0].id)
-        //  .populate('collections')
-        //  .exec(function (err, user) {
-        //    if (err) {
-        //      transaction.rollback();
-        //      return res.serverError(err);
-        //    }
-        //
-        //    async.each(user.collections, function (collection, cb) {
-        //      if (err) { return cb(err); }
-        //      Request.transact(transaction)
-        //        .update({collection: collection.id}, {updated: true})
-        //        .exec(function (err, requests) {
-        //          if (err) { return cb(err); }
-        //
-        //          collection.name += ' - updated';
-        //          collection.transactionId = trans.connection().transactionId; // @todo inject/remove?
-        //
-        //          collection.save(function (err, collection) {
-        //            return cb(err);
-        //          });
-        //      });
-        //    }, function (err) {
-        //      if (err) {
-        //        transaction.rollback();
-        //        return res.serverError(err);
-        //      }
-        //
-        //      transaction.commit();
-        //      return res.json(user);
-        //    });
-        //  });
+                  collection.save(function (err, collection) {
+                    return cb(err);
+                  });
+              });
+            }, function (err) {
+              if (err) {
+                transaction.rollback();
+                return res.serverError(err);
+              }
+
+              transaction.commit();
+              return res.json(user);
+            });
+          });
       });
     });
   },
