@@ -11,4 +11,6 @@ else
 	npm install ../../;
 fi
 
+node app.js;
+
 popd > /dev/null;
