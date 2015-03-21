@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var transaction = require('sails-mysql-transactions').Transaction;
+var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   /**
@@ -18,56 +18,56 @@ module.exports = {
    */
   create: function (req, res) {
 
-    transaction.start(function (err, trans) {
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      User.create(trans.wrap(req.params.all()), function (err, user) {
+      User.transact(transaction).create(req.params.all(), function (err, user) {
         if (err) {
-          trans.rollback();
+          transaction.rollback();
           return res.serverError(err);
         }
 
-        Collection.create(trans.wrap({
+        Collection.transact(transaction).create({
           user: user,
-          name: 'collection:' + user.id
-        }), function (err, collection) {
+          name: 'collection: ' + user.id
+        }, function (err, collection) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
 
-          Request.create(trans.wrap({
-            name: 'request:' + user.id + ':' + collection.id,
+          Request.transact(transaction).create({
+            name: 'request: ' + user.id + ' - ' + collection.id,
             user: user
-          }), function (err, request) {
+          }, function (err, request) {
+
             if (err) {
-              trans.rollback();
+              transaction.rollback();
               return res.serverError(err);
             }
 
             collection.requests.add(request.id);
-            console.log('====== save start =======');
             collection.save(function (err, collection) {
               if (err) {
-                trans.rollback();
+                transaction.rollback();
                 return res.serverError(err);
               }
 
-              console.log('====== save end =======');
-              trans.commit(function (err) {
+              transaction.commit(function (err) {
                 if (err) {
-                  return res.serverError(err);
+                  return transaction.serverError(err);
                 }
+
                 return res.json({
                   user: user,
                   collection: collection,
                   request: request
                 });
               });
-            }, trans);
+            });
           });
         });
       });
@@ -119,49 +119,66 @@ module.exports = {
   },
 
   update: function (req, res) {
-    transaction.start(function (err, trans) {
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      User.update(req.param('id'), trans.wrap(req.params.all()), function (err, users) {
+      User.transact(transaction).update(req.param('id'), req.params.all(), function (err, users) {
         if (err) {
-          trans.rollback();
+          transaction.rollback();
           return res.serverError(err);
         }
 
-        User.findOne({
-          id: users[0].id
-        }, undefined, trans.connection().transactionId)
-          .populate('collections')
-          .exec(function (err, user) {
+        User.transact(transaction).findOne(users[0].id, function (err, user) {
+          async.each(user.collections, function (collection, next) {
+            console.log(collection);
+
+            next();
+          }, function (err) {
             if (err) {
-              trans.rollback();
+              transaction.rollback();
               return res.serverError(err);
             }
 
-            async.each(user.collections, function (collection, cb) {
-              if (err) { return cb(err); }
-              Request.update({collection: collection.id}, trans.wrap({updated: true})).exec(function (err, requests) {
-                if (err) { return cb(err); }
-
-                collection.name += ' - updated';
-                collection.transactionId = trans.connection().transactionId;
-                collection.save(function (err, collection) {
-                  return cb(err);
-                });
-              });
-            }, function (err) {
-              if (err) {
-                trans.rollback();
-                return res.serverError(err);
-              }
-
-              trans.commit();
-              return res.json(user);
-            });
+            transaction.commit();
+            return res.json(user);
           });
+        });
+
+        //User.transact(transaction).findOne(users[0].id)
+        //  .populate('collections')
+        //  .exec(function (err, user) {
+        //    if (err) {
+        //      transaction.rollback();
+        //      return res.serverError(err);
+        //    }
+        //
+        //    async.each(user.collections, function (collection, cb) {
+        //      if (err) { return cb(err); }
+        //      Request.transact(transaction)
+        //        .update({collection: collection.id}, {updated: true})
+        //        .exec(function (err, requests) {
+        //          if (err) { return cb(err); }
+        //
+        //          collection.name += ' - updated';
+        //          collection.transactionId = trans.connection().transactionId; // @todo inject/remove?
+        //
+        //          collection.save(function (err, collection) {
+        //            return cb(err);
+        //          });
+        //      });
+        //    }, function (err) {
+        //      if (err) {
+        //        transaction.rollback();
+        //        return res.serverError(err);
+        //      }
+        //
+        //      transaction.commit();
+        //      return res.json(user);
+        //    });
+        //  });
       });
     });
   },
@@ -207,20 +224,19 @@ module.exports = {
    * @param res
    */
   destroy: function (req, res) {
-    transaction.start(function (err, trans) {
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
       User
-        .findOne(req.param('id'), undefined, trans.connection().transactionId)
+        .findOne(req.param('id'))
         .populate('collections')
         .then(function (user) {
-          var requests = Request.find({
-            collection: _.pluck(user.collections, 'id')
-          }, undefined, undefined, trans.connection().transactionId)
-            .then(function (requests) {
+          var requests = Request.transact(transaction).find({
+              collection: _.pluck(user.collections, 'id')
+            }).then(function (requests) {
               return requests;
             });
 
@@ -228,31 +244,28 @@ module.exports = {
           return [_.omit(user, 'collections'), collections, requests];
         })
         .spread(function (user, collections, requests) {
-          user.transactionId = trans.connection().transactionId; // @todo - inject
+          user.transactionId = transaction.connection().transactionId; // @todo - inject?
 
-          Request.destroy(trans.wrap(_.pluck(requests, 'id')))
+          Request.transact(transaction).destroy(_.pluck(requests, 'id'))
             .then(function () {
-              return Collection.destroy(trans.wrap(_.pluck(collections, 'id')));
+              return Collection.transact(transaction).destroy(_.pluck(collections, 'id'));
             })
             .then(function () {
               return user.destroy();
             })
             .then(function () {
-              trans.commit();
+              var tid = transaction.id();
+              transaction.commit();
               return res.json({
-                deleted: true
+                deleted: true,
+                transactionId: tid
               });
             });
 
-          //Promise.all([
-          //  Request.destroy(trans.wrap(_.pluck(requests, 'id'))),
-          //  Collection.destroy(trans.wrap(_.pluck(collections, 'id'))),
-          //  user.destroy()
-          //])
         })
         .catch(function (err) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
         });

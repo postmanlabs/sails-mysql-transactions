@@ -9,6 +9,7 @@ var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   create: function (req, res) {
+
     // start a transaction
     Transaction.start(function (err, transaction) {
       if (err) {
@@ -27,6 +28,26 @@ module.exports = {
         return res.json(team);
       });
     });
+
+    //// Promises are unsupported
+    //Transaction.start(function (err, transaction) {
+    //  if (err) {
+    //    transaction && transaction.rollback()
+    //    return res.serverError(err);
+    //  }
+    //
+    //  Team.transact(transaction).create(req.params.all())
+    //    .then(function (team) {
+    //      transaction.commit();
+    //      return res.json(team);
+    //    })
+    //    .catch(function (err) {
+    //      if (err) {
+    //        transaction.rollback();
+    //        return res.serverError(err);
+    //      }
+    //    });
+    //});
   },
 
   create_direct: function (req, res) {
@@ -41,62 +62,115 @@ module.exports = {
 
 
   add_member: function (req, res) {
-    transaction.start(function (err, trans) {
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && trans.rollback();
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionId)
-        .populate('members')
-        .exec(function (err, team) {
+      Team.transact(transaction).findOne(req.param('id'), function (err, team) {
+        if (err) {
+          transaction.rollback();
+          return res.serverError(err);
+        }
+
+        team.members.remove(req.param('member_id'));
+        transaction.wrap(team);
+
+        team.save(function (err, team) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
 
-          team.members.add(req.param('member_id'));
-          team.transactionId = trans.connection().transactionId;
-          team.save(function (err, team) {
-            if (err) {
-              trans.rollback();
-              return res.serverError(err);
-            }
-
-            trans.commit();
-            return res.json(team);
-          });
+          transaction.commit();
+          return res.json(team);
         });
+      });
+
+      //// Promises not supported yet
+      //Team.transact(transaction).findOne(req.param('id'))
+      //  .populate('members')
+      //  .exec(function (err, team) {
+      //    if (err) {
+      //      transaction.rollback();
+      //      return res.serverError(err);
+      //    }
+      //
+      //    team.members.add(req.param('member_id'));
+      //    team.transactionId = transaction.connection().transactionId;
+      //
+      //    team.save(function (err, team) {
+      //      if (err) {
+      //        transaction.rollback();
+      //        return res.serverError(err);
+      //      }
+      //
+      //      transaction.commit();
+      //      return res.json(team);
+      //    });
+      //  });
     });
   },
 
   remove_member: function (req, res) {
-    transaction.start(function (err, trans) {
+
+    Transaction.start(function (err, transaction) {
+
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionId)
-        .populate('members')
-        .exec(function (err, team) {
+      Team.transact(transaction).findOne(req.param('id'), function (err, team) {
+        if (err) {
+          transaction.rollback();
+          return res.serverError(err);
+        }
+
+        team.populate('members', function (err, team) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
 
           team.members.remove(req.param('member_id'));
-          team.transactionId = trans.connection().transactionId;
+          transaction.wrap(team);
+
           team.save(function (err, team) {
             if (err) {
-              trans.rollback();
+              transaction.rollback();
               return res.serverError(err);
             }
 
-            trans.commit();
+            transaction.commit();
             return res.json(team);
           });
         });
+      });
+
+      //Team.transact(transaction)
+      //  .findOne(req.param('id'))
+      //  .populate('members')
+      //  .exec(function (err, team) {
+      //    if (err) {
+      //      transaction.rollback();
+      //      return res.serverError(err);
+      //    }
+      //
+      //    team.members.remove(req.param('member_id'));
+      //    team.transactionId = transaction.connection().transactionId;
+      //
+      //    team.save(function (err, team) {
+      //      if (err) {
+      //        transaction.rollback();
+      //        return res.serverError(err);
+      //      }
+      //
+      //      transaction.commit();
+      //      return res.json(team);
+      //    });
+      //  });
     });
   },
 
