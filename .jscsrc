@@ -2,7 +2,7 @@
     // "disallowAnonymousFunctions": false,
     // "disallowCapitalizedComments": false,
     // "disallowCommaBeforeLineBreak": false,
-    "disallowDanglingUnderscores": true,
+    // "disallowDanglingUnderscores": true,
     "disallowEmptyBlocks": true,
     "disallowFunctionDeclarations": true,
     // "disallowImplicitTypeConversion": [],

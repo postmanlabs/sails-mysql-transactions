@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "sails/waterline ORM with mySQL transaction support",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/postmanlabs/sails-mysql-transactions.git"
@@ -29,8 +26,11 @@
     "sails-mysql": "0.10.11"
   },
   "devDependencies": {
+    "jscs": "^1.11.3",
+    "jshint": "^2.6.3"
   },
   "scripts": {
-    "postinstall": "scripts/postinstall-inject.sh"
+    "postinstall": "scripts/postinstall-inject.sh",
+    "test": "scripts/test.sh"
   }
 }
