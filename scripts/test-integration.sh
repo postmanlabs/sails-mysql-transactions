@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e;
+
 pushd tests/integration > /dev/null;
 
 if [ ! -d 'node_modules' ]; then
