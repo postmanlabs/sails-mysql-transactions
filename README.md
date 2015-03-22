@@ -1,3 +1,5 @@
+<img src="https://travis-ci.org/postmanlabs/sails-mysql-transactions.svg?branch=master" align="right" />
+
 # Sails MySQL Transactional ORM
 
 `sails-mysql-transaction` is a Sails ORM Adapter for MySQL with transaction support.
