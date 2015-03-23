@@ -5,7 +5,7 @@ set -e;
 pushd tests/integration > /dev/null;
 
 if [ ! -d 'node_modules' ]; then
-	npm install;
+	npm install -d;
 else
 	if [ -d 'node_modules/sails-mysql-transactions' ]; then
 		rm -rf 'node_modules/sails-mysql-transactions';

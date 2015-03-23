@@ -3,10 +3,16 @@
 set -e;
 
 echo "jscs v`jscs --version`";
-jscs lib;
+jscs lib tests/unit;
 
 echo;
 
 jshint --version;
-jshint lib;
+jshint lib tests/unit;
 echo "No code lint issues found.";
+
+echo
+echo "Running unit tests..."
+echo "mocha v`mocha --version`";
+
+mocha tests/unit/**/*-spec.js
