@@ -1,3 +1,5 @@
+<img src="https://travis-ci.org/postmanlabs/sails-mysql-transactions.svg?branch=master" align="right" />
+
 # Sails MySQL Transactional ORM
 
 `sails-mysql-transaction` is a Sails ORM Adapter for MySQL with transaction support.
@@ -14,7 +16,8 @@ already installed in your package.
 2. If you already have `sails-mysql` installed, it might interfere with operations of this module. Remove it from your 
 `package.json` and uninstall the same using `npm remove sails-mysql`.
 
-3. This package installs successfully only when sails is already installed in the package. If the package is already installed, then simply run `npm install sails-mysql-transactions --save`, otherwise run `npm install` and it will take 
+3. This package installs successfully only when sails is already installed in the package. If the package is already
+installed, then simply run `npm install sails-mysql-transactions --save`, otherwise run `npm install` and it will take
 care of rest.
 
 ### Installation Notes:
@@ -24,10 +27,10 @@ if you ever re-install or update sails, ensure you re-install this adapter right
 
 Do check SailsJS compatibility list before upgrading your Sails version while already using this adapter.
 
-## Using this adapter
+## Quick Start
 
 The integration test Sails App located in `tests/integration` directory of this repository has a fully functional
-installation.
+installation. Simply run `npm install` within `test/integration` directory.
 
 ### Sails config/local.js
 
@@ -47,7 +50,7 @@ module.exports = {
 
 	models: {
 		connection: 'mySQLT',
-		migrate: 'drop'
+		migrate: 'safe'
 	}
 }
 ```
@@ -74,20 +77,22 @@ module.exports = {
 };
 ```
 
-### Use Transactions in your controllers
+### Use Transaction in your controllers
 
 ```javascript
 var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   create: function (req, res) {
+    // start a new transaction
     Transaction.start(function (err, transaction) {
       if (err) {
+        // the first error might even fail to return a transaction object, so double-check.
         transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      OneModel.create(transaction.wrap(req.params.all()), function (err, modelInstance) {
+      OneModel.transact(transaction).create(req.params.all(), function (err, modelInstance) {
         if (err) {
           transaction.rollback();
           return res.serverError(err);
@@ -101,7 +106,7 @@ module.exports = {
 };
 ```
 
-### Using transaction specific API (proposed)
+### List of available transactional operations:
 
 ```javascript
 route = function (req, res) {
@@ -110,5 +115,10 @@ route = function (req, res) {
 		OneModel.transact(transaction).update(/* ... */);
 		OneModel.transact(transaction).find(/* ... */);
 		OneModel.transact(transaction).findOne(/* ... */);
+		OneModel.transact(transaction).destroy(/* ... */);
 	});
 };
+```
+
+Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
+were either stemmed from the same transaction or wrapped (`transaction.wrap(isntance)`) by a transaction.

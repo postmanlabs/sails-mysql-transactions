@@ -5,6 +5,8 @@ INFO="sails-mysql-transactions:"; # for console logs
 SAILS_DIR="../../node_modules/sails";
 TRANS_DIR="../../node_modules/sails-mysql-transactions";
 
+set -e;
+
 # If this is an NPM installation, we do not expect `.gitmodules` in the directory
 # since it is ignored by `.npmignore`. This is a fairly robust check to test whether
 # this script has been run as part of npm install or as part of self install.
