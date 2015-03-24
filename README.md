@@ -29,8 +29,8 @@ Do check SailsJS compatibility list before upgrading your Sails version while al
 
 ## Quick Start
 
-The integration test Sails App located in `tests/integration` directory of this repository has a fully functional
-installation. Simply run `npm install` within `test/integration` directory.
+The integration test Sails App located in `tests/integration/app` directory of this repository has a fully functional
+installation. Simply run `npm install` within `test/integration/app` directory.
 
 ### Sails config/local.js
 
