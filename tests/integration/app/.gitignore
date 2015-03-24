@@ -39,7 +39,8 @@
 #
 ################################################
 
-config/local.js
+# allow for test app
+# config/local.js
 
 
 

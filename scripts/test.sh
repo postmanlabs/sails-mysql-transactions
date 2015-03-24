@@ -16,3 +16,8 @@ echo "Running unit tests..."
 echo "mocha v`mocha --version`";
 
 mocha tests/unit/**/*-spec.js
+
+echo
+echo "Running integration tests...";
+
+./scripts/test-integration.sh;
