@@ -29,7 +29,8 @@
     "expect.js": "^0.3.1",
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
-    "mocha": "^2.2.1"
+    "mocha": "^2.2.1",
+    "newman": "^1.2.15"
   },
   "scripts": {
     "postinstall": "scripts/postinstall.sh",
