@@ -5,26 +5,49 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var transaction = require('../../../../index').Transaction;
+var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   create: function (req, res) {
-    transaction.start(function (err, trans) {
+
+    // start a transaction
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      Team.create(trans.act(req.params.all()), function (err, team) {
+      // create a new team instance in a transactional way.
+      Team.transact(transaction).create(req.params.all(), function (err, team) {
         if (err) {
-          trans.rollback();
+          transaction.rollback();
           return res.serverError(err);
         }
 
-        trans.commit();
+        transaction.commit();
         return res.json(team);
       });
     });
+
+    //// Promises are unsupported
+    //Transaction.start(function (err, transaction) {
+    //  if (err) {
+    //    transaction && transaction.rollback()
+    //    return res.serverError(err);
+    //  }
+    //
+    //  Team.transact(transaction).create(req.params.all())
+    //    .then(function (team) {
+    //      transaction.commit();
+    //      return res.json(team);
+    //    })
+    //    .catch(function (err) {
+    //      if (err) {
+    //        transaction.rollback();
+    //        return res.serverError(err);
+    //      }
+    //    });
+    //});
   },
 
   create_direct: function (req, res) {
@@ -39,29 +62,30 @@ module.exports = {
 
 
   add_member: function (req, res) {
-    transaction.start(function (err, trans) {
+    Transaction.start(function (err, transaction) {
       if (err) {
-        trans.rollback();
+        transaction && trans.rollback();
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+      Team.transact(transaction).findOne(req.param('id'))
         .populate('members')
         .exec(function (err, team) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
 
           team.members.add(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          team.transactionId = transaction.connection().transactionId;
+
           team.save(function (err, team) {
             if (err) {
-              trans.rollback();
+              transaction.rollback();
               return res.serverError(err);
             }
 
-            trans.commit();
+            transaction.commit();
             return res.json(team);
           });
         });
@@ -69,29 +93,34 @@ module.exports = {
   },
 
   remove_member: function (req, res) {
-    transaction.start(function (err, trans) {
+
+    Transaction.start(function (err, transaction) {
+
       if (err) {
-        trans.rollback();
+        transaction && transaction.rollback();
         return res.serverError(err);
       }
 
-      Team.findOne(req.param('id'), undefined, trans.connection().transactionID)
+
+      Team.transact(transaction)
+        .findOne(req.param('id'))
         .populate('members')
         .exec(function (err, team) {
           if (err) {
-            trans.rollback();
+            transaction.rollback();
             return res.serverError(err);
           }
 
           team.members.remove(req.param('member_id'));
-          team.transactionID = trans.connection().transactionID;
+          team.transactionId = transaction.connection().transactionId;
+
           team.save(function (err, team) {
             if (err) {
-              trans.rollback();
+              transaction.rollback();
               return res.serverError(err);
             }
 
-            trans.commit();
+            transaction.commit();
             return res.json(team);
           });
         });

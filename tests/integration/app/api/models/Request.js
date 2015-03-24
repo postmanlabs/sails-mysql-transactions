@@ -1,5 +1,5 @@
 /**
- * Collection.js
+ * Request.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
@@ -15,26 +15,30 @@ module.exports = {
     user: {
       model: 'User'
     },
-    requests: {
-      collection: 'Request',
-      via: 'collection'
+    collection: {
+      model: 'Collection'
     },
-    transactionID: {
+    transactionId: {
       type: 'string'
+    },
+    updated: {
+      type: 'boolean',
+      defaultsTo: false
     }
   },
 
-  createInstance: function (user, cb) {
-    Collection.create({
-      name: 'collection:' + user.id
-    }, function (err, collection) {
+  createInstance: function (user, collection, cb) {
+    Request.create({
+      name: 'request:' + user.id + ':' + collection.id,
+      user: user
+    }, function (err, request) {
       if (err) { return cb(err); }
 
-      user.collections.add(collection.id);
-      user.save(function (err, user) {
+      collection.requests.add(request.id);
+      collection.save(function (err, collection) {
         if (err) { return cb(err); }
 
-        Request.createInstance(user, collection, cb);
+        cb(null, collection);
       });
     });
   }

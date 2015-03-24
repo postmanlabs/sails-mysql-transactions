@@ -1,11 +1,8 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.0.1",
-  "description": "sails/waterline ORM with mySQL transaction support",
+  "version": "0.1.0-beta.1",
+  "description": "Sails ORM adapter for mySQL with transaction support",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/postmanlabs/sails-mysql-transactions.git"
@@ -17,7 +14,7 @@
     "mysql",
     "transactions"
   ],
-  "author": "Shamasis Bhattacharya <mail@shamasis.net>",
+  "author": "Postman Labs <help@getpostman.com>",
   "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/postmanlabs/sails-mysql-transactions/issues"
@@ -29,5 +26,14 @@
     "sails-mysql": "0.10.11"
   },
   "devDependencies": {
+    "expect.js": "^0.3.1",
+    "jscs": "^1.11.3",
+    "jshint": "^2.6.3",
+    "mocha": "^2.2.1",
+    "newman": "^1.2.15"
+  },
+  "scripts": {
+    "postinstall": "scripts/postinstall.sh",
+    "test": "scripts/test.sh"
   }
 }

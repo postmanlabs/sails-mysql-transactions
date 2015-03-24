@@ -1,5 +1,5 @@
 /**
- * User.js
+ * Team.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
@@ -12,19 +12,12 @@ module.exports = {
     name: {
       type: 'string'
     },
-    admin: {
-      type: 'boolean',
-      defaultsTo: false
+    members: {
+      collection: 'User',
+      via: 'teams',
+      dominant: true
     },
-    collections: {
-      collection: 'Collection',
-      via: 'user'
-    },
-    teams: {
-      collection: 'Team',
-      via: 'members'
-    },
-    transactionID: {
+    transactionId: {
       type: 'string'
     }
   }
