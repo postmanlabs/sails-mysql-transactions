@@ -8,6 +8,8 @@ APP_DIR=tests/integration/app;
 # ============
 pushd "${APP_DIR}" > /dev/null;
 
+echo
+echo "travis_fold:start:integration.npm.install";
 if [ ! -d 'node_modules' ]; then
 	npm install -d;
 else
@@ -16,9 +18,10 @@ else
 	fi
 	npm run postinstall;
 fi
+echo
+echo "travis_fold:end:integration.npm.install";
 
 npm start;
-SLEEP 5;
 popd > /dev/null;
 
 # Begin Test
@@ -31,8 +34,5 @@ newman -c tests/integration/sanity.json.postman_collection -e tests/integration/
 # ===========
 
 pushd "${APP_DIR}" > /dev/null;
-
-SLEEP 2;
 npm stop;
-
 popd > /dev/null;
