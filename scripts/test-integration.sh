@@ -9,7 +9,7 @@ APP_DIR=tests/integration/app;
 pushd "${APP_DIR}" > /dev/null;
 
 echo
-echo -en 'travis_fold:start:integration.npm.install\\r';
+echo "travis_fold:start:integration.npm.install";
 if [ ! -d 'node_modules' ]; then
 	npm install -d;
 else
@@ -19,7 +19,7 @@ else
 	npm run postinstall;
 fi
 echo
-echo -en 'travis_fold:end:integration.npm.install\\r';
+echo "travis_fold:end:integration.npm.install";
 
 npm start;
 popd > /dev/null;
