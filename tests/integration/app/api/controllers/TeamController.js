@@ -18,7 +18,7 @@ module.exports = {
       }
 
       // create a new team instance in a transactional way.
-      Team.transact(transaction).create(req.params.all(), function (err, team) {
+      Team.transact(transaction).findOrCreate(req.param('id'), req.params.all(), function (err, team) {
         if (err) {
           transaction.rollback();
           return res.serverError(err);

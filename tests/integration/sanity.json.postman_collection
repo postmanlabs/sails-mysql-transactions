@@ -2,33 +2,20 @@
 	"id": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
 	"name": "Sails MySQL Transactions",
 	"description": "",
-	"order": [],
-	"folders": [
-		{
-			"id": "2ddbb0b5-7863-fd27-91e0-33e5128834b7",
-			"name": "With Transactions",
-			"description": "",
-			"write": true,
-			"order": [
-				"25104f0d-8fc8-8daf-e2c0-157ad4ceca6c",
-				"bcf3da1a-0727-f8c3-37c1-ff5e7dba282d",
-				"b3ed28e3-d50a-518b-4656-d363f9e3abb1",
-				"70cdb552-7444-bf1a-5928-73c3285198a7",
-				"4cd9853d-035a-3154-2b04-a14a95a17d8d"
-			],
-			"collection_name": "Sails MySQL Transactions",
-			"collection_owner": "108",
-			"collection_id": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
-			"collection": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
-			"owner": "108"
-		}
+	"order": [
+		"25104f0d-8fc8-8daf-e2c0-157ad4ceca6c",
+		"bcf3da1a-0727-f8c3-37c1-ff5e7dba282d",
+		"b3ed28e3-d50a-518b-4656-d363f9e3abb1",
+		"70cdb552-7444-bf1a-5928-73c3285198a7",
+		"4cd9853d-035a-3154-2b04-a14a95a17d8d"
 	],
+	"folders": [],
 	"timestamp": 1427187196133,
 	"synced": false,
 	"owner": "108",
-	"sharedWithTeam": false,
+	"sharedWithTeam": true,
 	"subscribed": false,
-	"remoteLink": "",
+	"remoteLink": "http://sync-staging.getpostman.com/collections/b401547cb75e940cba09",
 	"public": false,
 	"write": true,
 	"requests": [
@@ -45,6 +32,12 @@
 					"value": "team-create",
 					"type": "text",
 					"enabled": true
+				},
+				{
+					"key": "id",
+					"value": "1",
+					"type": "text",
+					"enabled": true
 				}
 			],
 			"dataMode": "params",
@@ -52,7 +45,7 @@
 			"tests": "var data = JSON.parse(responseBody);\n\ntests[\"Expect Name\"] = data.name === \"team-create\";\ntests[\"Expect Id\"] = (data.id === 1);\ntests[\"Non Null Transaction\"] = (data.transactionId !== null && data.transactionId !== undefined);\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1427191159934,
+			"time": 1427276401967,
 			"name": "Create Team",
 			"description": "",
 			"collectionId": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
