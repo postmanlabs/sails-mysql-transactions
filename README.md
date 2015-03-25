@@ -114,6 +114,7 @@ route = function (req, res) {
 		OneModel.transact(transaction).create(/* ... */);
 		OneModel.transact(transaction).update(/* ... */);
 		OneModel.transact(transaction).find(/* ... */);
+		OneModel.transact(transaction).findOrCreate(/* ... */);
 		OneModel.transact(transaction).findOne(/* ... */);
 		OneModel.transact(transaction).destroy(/* ... */);
 	});
