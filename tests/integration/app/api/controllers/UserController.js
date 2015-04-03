@@ -139,21 +139,16 @@ module.exports = {
             }
 
             async.each(user.collections, function (collection, cb) {
-              if (err) {
-                return cb(err);
-              }
+              Request.transact(transaction).update({collection: collection.id}, {updated: true}).exec(function (err) {
+                if (err) {
+                  transaction.rollback();
+                  return cb(err);
+                }
+                transaction.wrap(collection);
+                collection.name += ' - updated';
+                collection.save(cb);
 
-              Request.transact(transaction).update({collection: collection.id}, {updated: true})
-                .exec(function (err, requests) {
-                  if (err) {
-                    transaction.rollback();
-                    return cb(err);
-                  }
-
-                  collection.name += ' - updated';
-
-                  collection.save(cb);
-                });
+              });
             }, function (err) {
               if (err) {
                 transaction.rollback();
