@@ -152,15 +152,15 @@ module.exports = {
 
                   collection.name += ' - updated';
 
-                  collection.save(function (err, collection) {
-                    return cb(err);
-                  });
+                  collection.save(cb);
                 });
             }, function (err) {
               if (err) {
                 transaction.rollback();
                 return res.serverError(err);
               }
+
+              transaction.commit();
 
               return res.json(user);
             });
