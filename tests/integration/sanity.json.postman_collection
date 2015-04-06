@@ -7,7 +7,8 @@
 		"bcf3da1a-0727-f8c3-37c1-ff5e7dba282d",
 		"b3ed28e3-d50a-518b-4656-d363f9e3abb1",
 		"70cdb552-7444-bf1a-5928-73c3285198a7",
-		"4cd9853d-035a-3154-2b04-a14a95a17d8d"
+		"4cd9853d-035a-3154-2b04-a14a95a17d8d",
+		"89b740df-ffb5-6f9e-703d-06eb59db8001"
 	],
 	"folders": [],
 	"timestamp": 1427187196133,
@@ -112,6 +113,32 @@
 			"synced": false
 		},
 		{
+			"owner": "108",
+			"lastUpdatedBy": "108",
+			"collection": "0aa5be11-543b-87a4-37a4-e5c9c1ac7f1f",
+			"id": "89b740df-ffb5-6f9e-703d-06eb59db8001",
+			"name": "Delete User",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": null,
+			"descriptionFormat": "html",
+			"description": "",
+			"headers": "",
+			"method": "DELETE",
+			"pathVariables": {},
+			"url": "{{url}}/user/destroy/1",
+			"preRequestScript": "",
+			"tests": "",
+			"version": 2,
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"collectionId": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
+			"write": true,
+			"synced": false,
+			"isFromCollection": true,
+			"collectionRequestId": "cf608799-52cb-3a88-6d37-07bcd8d42538"
+		},
+		{
 			"id": "b3ed28e3-d50a-518b-4656-d363f9e3abb1",
 			"headers": "",
 			"url": "{{url}}/team/add_member/1",
@@ -150,6 +177,12 @@
 					"value": "user-create",
 					"type": "text",
 					"enabled": true
+				},
+				{
+					"key": "id",
+					"value": "1",
+					"type": "text",
+					"enabled": true
 				}
 			],
 			"dataMode": "params",
@@ -157,7 +190,7 @@
 			"tests": "var data = JSON.parse(responseBody);\n\ntests[\"Expect User Name\"] = data.user.name === \"user-create\";\ntests[\"Expect User Id\"] = (data.user.id === 1);\n\ntests[\"Expect Request Name\"] = data.request.name === \"request: 1 - 1\";\ntests[\"Expect Request Id\"] = (data.request.id === 1);\n\n\ntests[\"Non Null User Transaction\"] = (data.user.transactionId !== null && data.user.transactionId !== undefined);\ntests[\"Expect unified transaction\"] = (data.request.transactionId === data.request.transactionId) && (data.collection.requests[0].transactionId === data.request.transactionId);\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1427191195904,
+			"time": 1428311380882,
 			"name": "Create User",
 			"description": "",
 			"collectionId": "15db846a-e78f-bddf-cf86-03d0bc78cc9c",
