@@ -24,7 +24,7 @@ module.exports = {
         return res.serverError(err);
       }
 
-      User.transact(transaction).create(req.params.all(), function (err, user) {
+      User.transact(transaction).findOrCreate(req.param('id'), req.params.all(), function (err, user) {
         if (err) {
           transaction.rollback();
           return res.serverError(err);

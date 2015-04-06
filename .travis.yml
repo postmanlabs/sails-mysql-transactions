@@ -1,6 +1,18 @@
 language: node_js
+
 node_js:
-  - "0.12"
-  - "0.10"
+  - '0.12'
+  - '0.10'
+
 before_script:
   - mysql -e 'create database `sails_transactions`;'
+
+deploy:
+  provider: npm
+  email: help@getpostman.com
+  api_key:
+    secure: ZfZzgWuybdOZTtipwwWwr62nQIGo/ZqHDXKuEiNI0Y+WhQ5514uaxhhCYHs1kNtdLTUnUYHY3hmHaugzVI/1+Ep2Gep3EBkWrGa2pcVX5yRZ8HIavY3z+QlDKpM1KKgdGf9uBZyzWghAXSw9brX4ZTcdH9EJA6RQ5bvzCtxvJIk=
+  on:
+    tags: true
+    repo: postmanlabs/sails-mysql-transactions
+    branch: master
