@@ -123,3 +123,14 @@ route = function (req, res) {
 
 Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
 were either stemmed from the same transaction or wrapped (`transaction.wrap(isntance)`) by a transaction.
+
+### Exceptions where transactions may fail
+
+In cases where you are performing model instance opertaions such as `save`, `destroy`, etc on instances that has been
+stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
+doing instance operations should fix such errors.
+
+## Contributing
+
+Contribution is accepted in form of Pull Requests that passes Travis CI tests. You should install this repository using
+`npm install -d` and run `npm test` locally before sending Pull Request.
