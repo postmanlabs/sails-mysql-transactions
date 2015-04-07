@@ -50,6 +50,24 @@ module.exports = {
     //});
   },
 
+  update: function (req, res) {
+      Transaction.start(function (err, transaction) {
+          if (err) {
+            return res.serverError(err);
+          }
+
+          Team.transact(transaction).update(req.param('id'), req.params.all(), function (err, team) {
+              if (err) {
+                  return transaction.rollback(function (rollErr) {
+                      res.serverError((rollErr && (err.rollbackError = rollErr), err));
+                  });
+              }
+
+              res.json(team);
+          });
+      });
+  },
+
   create_direct: function (req, res) {
     Team.create(req.params.all(), function (err, team) {
       if (err) {

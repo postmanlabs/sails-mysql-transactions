@@ -16,9 +16,6 @@ module.exports = {
       collection: 'User',
       via: 'teams',
       dominant: true
-    },
-    transactionId: {
-      type: 'string'
     }
   }
 };
