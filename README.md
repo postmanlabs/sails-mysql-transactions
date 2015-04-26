@@ -44,7 +44,8 @@ module.exports = {
 			host: '{{your-db-host}}',
 			user: '{{your-db-username}}',
 			password: '{{your-db-password}}',
-			database: '{{your-db-tablename}}'
+			database: '{{your-db-tablename}}',
+			rollbackTimeout: 30000 // msec
 		}
 	},
 
