@@ -20,6 +20,21 @@ already installed in your package.
 installed, then simply run `npm install sails-mysql-transactions --save`, otherwise run `npm install` and it will take
 care of rest.
 
+## Safe install using postinstall script
+
+If `npm install` seems erratic to install dependencies in order, you could add the following in your `package.json` as 
+a [postinstall script of npm](https://docs.npmjs.com/misc/scripts). This would ensure that this module is installed after 
+sails has been completely installed. Note that in this method, you would not need to add `sails-mysql-transactions` as a 
+dependency in your package.json
+
+```
+{
+  "scripts": {
+    "postinstall": "npm install sails-mysql-transactions"
+  }
+}
+```
+
 ### Installation Notes:
 
 This package overwrites the `waterline` module inside Sails with a fork of Waterline maintained by Postman. As such, 
@@ -98,8 +113,31 @@ module.exports = {
           return res.serverError(err);
         }
 
-        transaction.commit();
-        return res.json(modelInstance);
+        // using transaction to update another model and using the promises architecture
+        AnotherModel.transact(transaction).findOne(req.param('id')).exec(function (err, anotherInstance) {
+          if (err) {
+            transaction.rollback();
+            return res.serverError(err);
+          }
+
+          // using update and association changes
+          modelInstance.someAssociatedModel.remove(req.param('remove_id'));
+
+          // standard .save() works when in transaction
+          modelInstance.save(function (err, savedModel) {
+            if (err) {
+              transaction.rollback();
+              return res.serverError(err);
+            }
+
+            // finally commit the transaction before sending response
+            transaction.commit();
+            return res.json({
+              one: savedModel,
+              another: anotherInstance
+            });
+          });
+        });
       });
     });
   }
@@ -122,7 +160,7 @@ route = function (req, res) {
 ```
 
 Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
-were either stemmed from the same transaction or wrapped (`transaction.wrap(isntance)`) by a transaction.
+were either stemmed from the same transaction or wrapped (`transaction.wrap(instance)`) by a transaction.
 
 ### Exceptions where transactions may fail
 
