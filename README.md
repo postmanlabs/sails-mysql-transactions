@@ -59,7 +59,16 @@ module.exports = {
 			host: '{{your-db-host}}',
 			user: '{{your-db-username}}',
 			password: '{{your-db-password}}',
-			database: '{{your-db-tablename}}'
+			database: '{{your-db-tablename}}',
+
+      /* additional replica db sources (proposed api) */
+      replicas: {
+        readonly1: {
+          host: '{{replica-1-host}}',
+          user: '{{replica-1-user}}',
+          password: '{{replica-1-password}}'
+        }
+      }
 		}
 	},
 
@@ -144,7 +153,7 @@ module.exports = {
 };
 ```
 
-### List of available transactional operations:
+#### List of available transactional operations:
 
 ```javascript
 route = function (req, res) {
@@ -162,11 +171,30 @@ route = function (req, res) {
 Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
 were either stemmed from the same transaction or wrapped (`transaction.wrap(instance)`) by a transaction.
 
+
 ### Exceptions where transactions may fail
 
 In cases where you are performing model instance opertaions such as `save`, `destroy`, etc on instances that has been
 stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
 doing instance operations should fix such errors.
+
+
+### Select connection during operation (proposed API)
+
+```javascript
+route = function (req, res) {
+  Transaction.startUsing('connection-1', function (err, transaction) {
+    OneModel.transact(transaction).create(/* ... */);
+  });
+};
+```
+
+```javascript
+route = function (req, res) {
+  OneModel.using('my-host-x').find();
+};
+```
+
 
 ## Contributing
 
