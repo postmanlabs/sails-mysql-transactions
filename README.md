@@ -183,14 +183,6 @@ doing instance operations should fix such errors.
 
 ```javascript
 route = function (req, res) {
-  Transaction.startUsing('connection-1', function (err, transaction) {
-    OneModel.transact(transaction).create(/* ... */);
-  });
-};
-```
-
-```javascript
-route = function (req, res) {
   OneModel.using('my-host-x').find();
 };
 ```
