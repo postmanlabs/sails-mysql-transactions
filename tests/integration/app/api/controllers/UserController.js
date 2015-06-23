@@ -8,6 +8,16 @@
 var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
+
+  retrieve: function (req, res) {
+    User.readonly('set1').findOne(req.param('id'), function (err, user) {
+      if (err) {
+        return res.serverError(err);
+      }
+      res.json(user);
+    });
+  },
+
   /**
    * 1. Create user
    * 2. Create a collection that belongs to the user
