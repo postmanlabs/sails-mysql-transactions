@@ -61,20 +61,21 @@ module.exports = {
 			password: '{{your-db-password}}',
 			database: '{{your-db-tablename}}',
 
-      /* additional replica db sources (proposed api) */
-      replicas: {
-        readonly1: {
-          host: '{{replica-1-host}}',
-          user: '{{replica-1-user}}',
-          password: '{{replica-1-password}}'
+      replication: {
+        loadBalance: true,
+        sources: { 
+          readonly: {
+            host: '{{replica-1-host}}',
+            user: '{{replica-1-user}}',
+            password: '{{replica-1-password}}'
+          }
         }
       }
 		}
 	},
 
 	models: {
-		connection: 'mySQLT',
-		migrate: 'safe'
+		connection: 'mySQLT'
 	}
 }
 ```
@@ -179,11 +180,14 @@ stemmed from a `.populate`, transaction might fail. In such scenarios, performin
 doing instance operations should fix such errors.
 
 
-### Select connection during operation (proposed API)
+## Support for Read Replicas
+
+When one or more read replica sources are provded, the following API can be used:
 
 ```javascript
 route = function (req, res) {
-  OneModel.using('my-host-x').find();
+  OneModel.readonly('my-host-x').find();
+  OneModel.readonly.find(); // load balanced usage
 };
 ```
 
