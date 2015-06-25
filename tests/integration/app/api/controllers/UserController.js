@@ -10,7 +10,7 @@ var Transaction = require('sails-mysql-transactions').Transaction;
 module.exports = {
 
   retrieve: function (req, res) {
-    User.readonly('set1').findOne(req.param('id'), function (err, user) {
+    User.readonly('set1').findOne(req.param('id')).exec(function (err, user) {
       if (err) {
         return res.serverError(err);
       }
