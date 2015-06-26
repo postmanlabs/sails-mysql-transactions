@@ -59,13 +59,22 @@ module.exports = {
 			host: '{{your-db-host}}',
 			user: '{{your-db-username}}',
 			password: '{{your-db-password}}',
-			database: '{{your-db-tablename}}'
+			database: '{{your-db-tablename}}',
+
+      replication: {
+        sources: { 
+          readonly: {
+            host: '{{replica-1-host}}',
+            user: '{{replica-1-user}}',
+            password: '{{replica-1-password}}'
+          }
+        }
+      }
 		}
 	},
 
 	models: {
-		connection: 'mySQLT',
-		migrate: 'safe'
+		connection: 'mySQLT'
 	}
 }
 ```
@@ -144,7 +153,7 @@ module.exports = {
 };
 ```
 
-### List of available transactional operations:
+#### List of available transactional operations:
 
 ```javascript
 route = function (req, res) {
@@ -162,11 +171,24 @@ route = function (req, res) {
 Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
 were either stemmed from the same transaction or wrapped (`transaction.wrap(instance)`) by a transaction.
 
+
 ### Exceptions where transactions may fail
 
 In cases where you are performing model instance opertaions such as `save`, `destroy`, etc on instances that has been
 stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
 doing instance operations should fix such errors.
+
+
+## Support for Read Replicas
+
+When one or more read replica sources are provded, the following API can be used:
+
+```javascript
+route = function (req, res) {
+  OneModel.readonly().find(); // load balanced usage
+};
+```
+
 
 ## Contributing
 

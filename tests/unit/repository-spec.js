@@ -30,7 +30,7 @@ describe('repository', function () {
                 expect(json.description)
                     .to.equal('Sails ORM adapter for mySQL with transaction support');
                 expect(json.author).to.equal('Postman Labs <help@getpostman.com>');
-                expect(json.license).to.equal('Apache 2.0');
+                expect(json.license).to.equal('Apache-2.0');
             });
 
             it('must have a valid version string in form of <major>.<minor>.<revision>', function () {
