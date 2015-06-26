@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Sails ORM adapter for mySQL with transaction support",
   "main": "index.js",
   "repository": {
@@ -15,7 +15,7 @@
     "transactions"
   ],
   "author": "Postman Labs <help@getpostman.com>",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/postmanlabs/sails-mysql-transactions/issues"
   },
@@ -23,7 +23,8 @@
   "dependencies": {
     "lodash": "3.5.0",
     "mysql": "2.5.5",
-    "sails-mysql": "0.10.11"
+    "sails-mysql": "0.10.11",
+    "weighted-round-robin": "2.0.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

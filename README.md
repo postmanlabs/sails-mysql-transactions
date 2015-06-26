@@ -20,6 +20,21 @@ already installed in your package.
 installed, then simply run `npm install sails-mysql-transactions --save`, otherwise run `npm install` and it will take
 care of rest.
 
+## Safe install using postinstall script
+
+If `npm install` seems erratic to install dependencies in order, you could add the following in your `package.json` as 
+a [postinstall script of npm](https://docs.npmjs.com/misc/scripts). This would ensure that this module is installed after 
+sails has been completely installed. Note that in this method, you would not need to add `sails-mysql-transactions` as a 
+dependency in your package.json
+
+```
+{
+  "scripts": {
+    "postinstall": "npm install sails-mysql-transactions"
+  }
+}
+```
+
 ### Installation Notes:
 
 This package overwrites the `waterline` module inside Sails with a fork of Waterline maintained by Postman. As such, 
@@ -44,13 +59,22 @@ module.exports = {
 			host: '{{your-db-host}}',
 			user: '{{your-db-username}}',
 			password: '{{your-db-password}}',
-			database: '{{your-db-tablename}}'
+			database: '{{your-db-tablename}}',
+
+      replication: {
+        sources: { 
+          readonly: {
+            host: '{{replica-1-host}}',
+            user: '{{replica-1-user}}',
+            password: '{{replica-1-password}}'
+          }
+        }
+      }
 		}
 	},
 
 	models: {
-		connection: 'mySQLT',
-		migrate: 'safe'
+		connection: 'mySQLT'
 	}
 }
 ```
@@ -98,15 +122,38 @@ module.exports = {
           return res.serverError(err);
         }
 
-        transaction.commit();
-        return res.json(modelInstance);
+        // using transaction to update another model and using the promises architecture
+        AnotherModel.transact(transaction).findOne(req.param('id')).exec(function (err, anotherInstance) {
+          if (err) {
+            transaction.rollback();
+            return res.serverError(err);
+          }
+
+          // using update and association changes
+          modelInstance.someAssociatedModel.remove(req.param('remove_id'));
+
+          // standard .save() works when in transaction
+          modelInstance.save(function (err, savedModel) {
+            if (err) {
+              transaction.rollback();
+              return res.serverError(err);
+            }
+
+            // finally commit the transaction before sending response
+            transaction.commit();
+            return res.json({
+              one: savedModel,
+              another: anotherInstance
+            });
+          });
+        });
       });
     });
   }
 };
 ```
 
-### List of available transactional operations:
+#### List of available transactional operations:
 
 ```javascript
 route = function (req, res) {
@@ -122,4 +169,28 @@ route = function (req, res) {
 ```
 
 Other than those, `update`, `save` and association operations on instance methods work within transaction provided they
-were either stemmed from the same transaction or wrapped (`transaction.wrap(isntance)`) by a transaction.
+were either stemmed from the same transaction or wrapped (`transaction.wrap(instance)`) by a transaction.
+
+
+### Exceptions where transactions may fail
+
+In cases where you are performing model instance opertaions such as `save`, `destroy`, etc on instances that has been
+stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
+doing instance operations should fix such errors.
+
+
+## Support for Read Replicas
+
+When one or more read replica sources are provded, the following API can be used:
+
+```javascript
+route = function (req, res) {
+  OneModel.readonly().find(); // load balanced usage
+};
+```
+
+
+## Contributing
+
+Contribution is accepted in form of Pull Requests that passes Travis CI tests. You should install this repository using
+`npm install -d` and run `npm test` locally before sending Pull Request.

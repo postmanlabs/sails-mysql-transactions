@@ -51,7 +51,22 @@ module.exports = {
       host: 'localhost',
       user: 'root',
       password: '',
-      database: 'sails_transactions'
+      database: 'sails_transactions',
+
+      replication: {
+        sources: {
+          set1: {
+            host: 'localhost',
+            user: 'root',
+            password: ''
+          },
+          set2: {
+            host: 'localhost',
+            user: 'root',
+            password: ''
+          }
+        }
+      }
     }
   },
 
