@@ -59,6 +59,11 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             password: ''
+          },
+          set2: {
+            host: 'localhost',
+            user: 'root',
+            password: ''
           }
         }
       }
