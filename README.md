@@ -62,7 +62,6 @@ module.exports = {
 			database: '{{your-db-tablename}}',
 
       replication: {
-        loadBalance: true,
         sources: { 
           readonly: {
             host: '{{replica-1-host}}',
@@ -186,8 +185,7 @@ When one or more read replica sources are provded, the following API can be used
 
 ```javascript
 route = function (req, res) {
-  OneModel.readonly('my-host-x').find();
-  OneModel.readonly.find(); // load balanced usage
+  OneModel.readonly().find(); // load balanced usage
 };
 ```
 
