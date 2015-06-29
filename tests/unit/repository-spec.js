@@ -28,7 +28,7 @@ describe('repository', function () {
             it('must have valid name, description and author', function () {
                 expect(json.name).to.equal('sails-mysql-transactions');
                 expect(json.description)
-                    .to.equal('Sails ORM adapter for mySQL with transaction support');
+                    .to.equal('Sails ORM adapter for mySQL with transaction and replication support');
                 expect(json.author).to.equal('Postman Labs <help@getpostman.com>');
                 expect(json.license).to.equal('Apache-2.0');
             });
