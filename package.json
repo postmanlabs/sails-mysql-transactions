@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Sails ORM adapter for mySQL with transaction support",
   "main": "index.js",
   "repository": {
@@ -23,8 +23,7 @@
   "dependencies": {
     "lodash": "3.5.0",
     "mysql": "2.5.5",
-    "sails-mysql": "0.10.11",
-    "weighted-round-robin": "2.0.2"
+    "sails-mysql": "0.10.11"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

@@ -1,11 +1,12 @@
 <img src="https://travis-ci.org/postmanlabs/sails-mysql-transactions.svg?branch=master" align="right" />
 
-# Sails MySQL Transactional ORM
+# Sails MySQL Transactional ORM with replication support
 
-`sails-mysql-transaction` is a Sails ORM Adapter for MySQL with transaction support.
+`sails-mysql-transaction` is a Sails ORM Adapter for MySQL with transaction and replication cluster support.
 
 This adapter essentially __wraps__ around the popular `sails-mysql` adapter and provides additional API to perform 
-operations that ties around a database transaction.
+operations that ties around a database transaction. It also provides to read from a cluster of read-replicas in a
+load-balanced fashion.
 
 ## Installation
 
@@ -61,7 +62,12 @@ module.exports = {
 			password: '{{your-db-password}}',
 			database: '{{your-db-tablename}}',
 
+      /* this section is needed only if replication feature is required */
       replication: {
+        canRetry: true,
+        removeNodeErrorCount: 5,
+        restoreNodeTimeout: 1000 * 60 * 5,
+        defaultSelector: 'RR', // 'RANDOM' or 'ORDER'
         sources: { 
           readonly: {
             host: '{{replica-1-host}}',
@@ -181,11 +187,13 @@ doing instance operations should fix such errors.
 
 ## Support for Read Replicas
 
-When one or more read replica sources are provded, the following API can be used:
+When one or more read replica sources are provded, the following API can be used to access data from one of the defined
+replication source databases. This distributes your database workloads across multiple systems.
 
 ```javascript
 route = function (req, res) {
-  OneModel.readonly().find(); // load balanced usage
+  OneModel.readonly().find();
+  OneModel.readonly().findOne();
 };
 ```
 
