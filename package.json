@@ -23,8 +23,7 @@
   "dependencies": {
     "lodash": "3.5.0",
     "mysql": "2.5.5",
-    "sails-mysql": "0.10.11",
-    "weighted-round-robin": "2.0.2"
+    "sails-mysql": "0.10.11"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
