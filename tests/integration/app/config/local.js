@@ -53,6 +53,8 @@ module.exports = {
       password: '',
       database: 'sails_transactions',
 
+      transactionConnectionLimit: 20,
+
       replication: {
         sources: {
           set1: {
