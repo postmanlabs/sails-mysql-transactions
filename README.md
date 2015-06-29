@@ -62,6 +62,8 @@ module.exports = {
 			password: '{{your-db-password}}',
 			database: '{{your-db-tablename}}',
 
+      transactionConnectionLimit: 10,
+
       /* this section is needed only if replication feature is required */
       replication: {
         canRetry: true,
