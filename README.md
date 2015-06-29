@@ -62,6 +62,10 @@ module.exports = {
 			database: '{{your-db-tablename}}',
 
       replication: {
+        canRetry: true,
+        removeNodeErrorCount: 5,
+        restoreNodeTimeout: 1000 * 60 * 5,
+        defaultSelector: 'RR', // 'RANDOM' or 'ORDER'
         sources: { 
           readonly: {
             host: '{{replica-1-host}}',
