@@ -1,7 +1,7 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.2.1",
-  "description": "Sails ORM adapter for mySQL with transaction support",
+  "version": "0.2.2",
+  "description": "Sails ORM adapter for mySQL with transaction and replication support",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -12,7 +12,8 @@
     "waterline",
     "orm",
     "mysql",
-    "transactions"
+    "transactions",
+    "replication"
   ],
   "author": "Postman Labs <help@getpostman.com>",
   "license": "Apache-2.0",
