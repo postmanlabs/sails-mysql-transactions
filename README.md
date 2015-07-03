@@ -66,12 +66,15 @@ module.exports = {
 
       /* this section is needed only if replication feature is required */
       replication: {
+        enabled: true,
+        inheritMaster: true,
         canRetry: true,
         removeNodeErrorCount: 5,
         restoreNodeTimeout: 1000 * 60 * 5,
         defaultSelector: 'RR', // 'RANDOM' or 'ORDER'
         sources: { 
           readonly: {
+            enabled: true,
             host: '{{replica-1-host}}',
             user: '{{replica-1-user}}',
             password: '{{replica-1-password}}'

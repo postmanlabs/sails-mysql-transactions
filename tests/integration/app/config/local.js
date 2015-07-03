@@ -56,8 +56,12 @@ module.exports = {
       transactionConnectionLimit: 20,
 
       replication: {
+        enabled: true,
+        inheritMaster: true,
+
         sources: {
           set1: {
+            enabled: false,
             host: 'localhost',
             user: 'root',
             password: ''
