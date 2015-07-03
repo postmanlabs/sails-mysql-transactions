@@ -66,12 +66,15 @@ module.exports = {
 
       /* this section is needed only if replication feature is required */
       replication: {
+        enabled: true,
+        inheritMaster: true,
         canRetry: true,
         removeNodeErrorCount: 5,
         restoreNodeTimeout: 1000 * 60 * 5,
         defaultSelector: 'RR', // 'RANDOM' or 'ORDER'
         sources: { 
           readonly: {
+            enabled: true,
             host: '{{replica-1-host}}',
             user: '{{replica-1-user}}',
             password: '{{replica-1-password}}'
@@ -191,6 +194,8 @@ doing instance operations should fix such errors.
 
 When one or more read replica sources are provded, the following API can be used to access data from one of the defined
 replication source databases. This distributes your database workloads across multiple systems.
+
+Readonly still works without read replica using the normal non-transactional connection set.
 
 ```javascript
 route = function (req, res) {
