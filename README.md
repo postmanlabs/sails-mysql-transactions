@@ -195,6 +195,8 @@ doing instance operations should fix such errors.
 When one or more read replica sources are provded, the following API can be used to access data from one of the defined
 replication source databases. This distributes your database workloads across multiple systems.
 
+Readonly still works without read replica using the normal non-transactional connection set.
+
 ```javascript
 route = function (req, res) {
   OneModel.readonly().find();
