@@ -63,6 +63,7 @@ module.exports = {
 			database: '{{your-db-tablename}}',
 
       transactionConnectionLimit: 10,
+      rollbackTransactionOnError: true,
 
       /* this section is needed only if replication feature is required */
       replication: {
@@ -188,6 +189,8 @@ were either stemmed from the same transaction or wrapped (`transaction.wrap(inst
 In cases where you are performing model instance opertaions such as `save`, `destroy`, etc on instances that has been
 stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
 doing instance operations should fix such errors.
+
+If you want to selectively intercept errors from this module, compare using `instanceof Transaction.Error`.
 
 
 ## Support for Read Replicas

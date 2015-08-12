@@ -54,6 +54,7 @@ module.exports = {
       database: 'sails_transactions',
 
       transactionConnectionLimit: 20,
+      rollbackTransactionOnError: false,
 
       replication: {
         enabled: true,
