@@ -15,4 +15,3 @@ deploy:
   on:
     tags: true
     repo: postmanlabs/sails-mysql-transactions
-    branch: master
