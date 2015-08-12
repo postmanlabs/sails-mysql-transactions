@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/postmanlabs/sails-mysql-transactions.svg?branch=master" align="right" />
+<a href="https://travis-ci.org/postmanlabs/sails-mysql-transactions" target="_blank"><img src="https://travis-ci.org/postmanlabs/sails-mysql-transactions.svg?branch=master" align="right" /></a>
 
 # Sails MySQL Transactional ORM with replication support
 
