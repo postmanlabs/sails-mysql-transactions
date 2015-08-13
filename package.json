@@ -35,6 +35,7 @@
   },
   "scripts": {
     "postinstall": "scripts/postinstall.sh",
-    "test": "scripts/test.sh"
+    "test": "scripts/test.sh",
+    "prepare-development": "scripts/prepare-development.sh"
   }
 }
