@@ -190,7 +190,7 @@ In cases where you are performing model instance opertaions such as `save`, `des
 stemmed from a `.populate`, transaction might fail. In such scenarios, performing a `transaction.wrap(instance);` before
 doing instance operations should fix such errors.
 
-If you want to selectively intercept errors from this module, compare using `instanceof Transaction.Error`.
+If you want to selectively intercept errors from this module, compare using `instanceof Transaction.AdapterError`.
 
 
 ## Support for Read Replicas
