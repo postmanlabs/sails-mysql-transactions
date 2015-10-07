@@ -23,9 +23,6 @@ module.exports = {
     teams: {
       collection: 'Team',
       via: 'members'
-    },
-    transactionId: {
-      type: 'string'
     }
   }
 };

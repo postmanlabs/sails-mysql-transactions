@@ -8,6 +8,7 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  autoTK: true,
   attributes: {
     name: {
       type: 'string'
@@ -18,9 +19,6 @@ module.exports = {
     requests: {
       collection: 'Request',
       via: 'collection'
-    },
-    transactionId: {
-      type: 'string'
     }
   },
 
