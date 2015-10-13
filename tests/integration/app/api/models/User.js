@@ -8,6 +8,7 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  softDelete: true,
   attributes: {
     name: {
       type: 'string'
@@ -23,6 +24,9 @@ module.exports = {
     teams: {
       collection: 'Team',
       via: 'members'
+    },
+    deleted: {
+      type: 'boolean'
     }
   }
 };
