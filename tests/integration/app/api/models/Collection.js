@@ -9,7 +9,6 @@ module.exports = {
   schema: true,
   autosubscribe: false,
   autoTK: true,
-  softDelete: true,
   attributes: {
     name: {
       type: 'string'

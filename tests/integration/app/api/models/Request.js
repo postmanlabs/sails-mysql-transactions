@@ -8,6 +8,8 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  destroyMode: 'blind',
+  autoTK: true,
   attributes: {
     name: {
       type: 'string'
@@ -17,9 +19,6 @@ module.exports = {
     },
     collection: {
       model: 'Collection'
-    },
-    transactionId: {
-      type: 'string'
     }
   },
 

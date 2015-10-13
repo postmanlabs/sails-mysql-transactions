@@ -8,6 +8,7 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  autoTK: true,
   attributes: {
     name: {
       type: 'string'
