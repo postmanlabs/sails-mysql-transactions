@@ -8,7 +8,12 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  autoPK: false,
   attributes: {
+    id: {
+      primaryKey: true,
+      type: 'string'
+    },
     name: {
       type: 'string'
     },

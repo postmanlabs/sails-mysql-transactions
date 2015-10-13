@@ -64,6 +64,7 @@ module.exports = {
 
       transactionConnectionLimit: 10,
       rollbackTransactionOnError: true,
+      queryCaseSensitive: false,
 
       /* this section is needed only if replication feature is required */
       replication: {
@@ -206,6 +207,11 @@ route = function (req, res) {
   OneModel.readonly().findOne();
 };
 ```
+
+## Additional Configurations
+
+`queryCaseSensitive` when set to true, disables the feature where waterline performs case insensitive queries. (Note
+that it ises `wlNext` options for waterline-sequel.)
 
 
 ## Contributing
