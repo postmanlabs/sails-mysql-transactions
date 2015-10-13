@@ -92,28 +92,6 @@ module.exports = {
 }
 ```
 
-### Add transactionId column to all models
-
-```js
-module.exports = {
-  schema: true,
-  autosubscribe: false,
-  attributes: {
-    property_one: {
-      type: 'string'
-    },
-    property_two: {
-      type: 'boolean',
-      defaultsTo: false
-    },
-
-    transactionId: {
-      type: 'string'
-    }
-  }
-};
-```
-
 ### Use Transaction in your controllers
 
 ```javascript
@@ -192,6 +170,9 @@ stemmed from a `.populate`, transaction might fail. In such scenarios, performin
 doing instance operations should fix such errors.
 
 If you want to selectively intercept errors from this module, compare using `instanceof Transaction.AdapterError`.
+
+Note that this adapter adds an additional auto column called `transactionId`. If you do not want to use transaction on
+a particular model, you can turn off creation of this column by setting `autoTK: false` in your model.
 
 
 ## Support for Read Replicas
