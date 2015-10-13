@@ -20,10 +20,6 @@ module.exports = {
     },
     transactionId: {
       type: 'string'
-    },
-    updated: {
-      type: 'boolean',
-      defaultsTo: false
     }
   },
 

@@ -53,6 +53,7 @@ module.exports = {
       password: '',
       database: 'sails_transactions',
 
+      queryCaseSensitive: true,
       transactionConnectionLimit: 20,
       rollbackTransactionOnError: false,
 

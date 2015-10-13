@@ -8,7 +8,12 @@
 module.exports = {
   schema: true,
   autosubscribe: false,
+  autoPK: false,
   attributes: {
+    id: {
+      primaryKey: true,
+      type: 'string'
+    },
     name: {
       type: 'string'
     },
@@ -23,9 +28,6 @@ module.exports = {
     teams: {
       collection: 'Team',
       via: 'members'
-    },
-    transactionId: {
-      type: 'string'
     }
   }
 };
