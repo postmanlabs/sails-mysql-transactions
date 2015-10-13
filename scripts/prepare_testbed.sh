@@ -8,13 +8,19 @@ pushd tests/integration/app;
 
 # symlink codebase
 pushd node_modules/sails-mysql-transactions;
-[ -d lib ] && [ ! -L lib ] && [ ! -d _lib ] && mv lib _lib;
+if [ -d lib ] && [ ! -L lib ]; then
+	[ ! -d _lib ] && mv lib _lib;
+	[ -d lib ] && rm -rf lib;
+fi
 [ ! -L lib ] && ln -fs ../../../../../lib;
 popd;
 
 # symlink waterline submodule
 pushd node_modules/sails/node_modules;
-[ -d waterline ] && [ ! -L waterline ] && [ ! -d _waterline ] && mv waterline _waterline;
+if [ -d waterline ] && [ ! -L waterline ]; then
+	[ ! -d _waterline ] && mv waterline _waterline;
+	[ -d waterline ] && rm -rf waterline;
+fi
 [ ! -L waterline ] && ln -fs ../../../../../../waterline;
 popd;
 
