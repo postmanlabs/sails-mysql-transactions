@@ -13,6 +13,10 @@ module.exports = {
     name: {
       type: 'string'
     },
+    fancy: {
+      type: 'boolean',
+      defaultsTo: false
+    },
     user: {
       model: 'User'
     },

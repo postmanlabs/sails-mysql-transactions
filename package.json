@@ -24,7 +24,7 @@
   "dependencies": {
     "lodash": "3.5.0",
     "mysql": "2.6.2",
-    "sails-mysql": "git+https://github.com/postmanlabs/sails-mysql.git#v0.10.12-postman.2"
+    "sails-mysql": "git+https://github.com/postmanlabs/sails-mysql.git#feature/selective-joins"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

@@ -141,12 +141,16 @@ module.exports = {
         }
 
         User.transact(transaction).findOne(users[0].id)
-          .populate('collections')
+          .populate('collections', {
+            select: ['name']
+          })
           .exec(function (err, user) {
             if (err) {
               transaction.rollback();
               return res.serverError(err);
             }
+            // transaction.commit();
+            // return res.json(user);
 
             async.each(user.collections, function (collection, cb) {
               Request.transact(transaction).update({collection: collection.id}, {updated: true}).exec(function (err) {
