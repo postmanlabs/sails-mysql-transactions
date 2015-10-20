@@ -17,6 +17,9 @@ module.exports = {
     name: {
       type: 'string'
     },
+    mascot: {
+      type: 'string'
+    },
     members: {
       collection: 'User',
       via: 'teams',
