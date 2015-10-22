@@ -141,12 +141,15 @@ module.exports = {
         }
 
         User.transact(transaction).findOne(users[0].id)
+          // .populate('collections', {
+          //   select: ['name', 'fancy']
+          // })
           .populateSome({
             collections: {
               select: ['name']
             },
             teams: {
-              select: ['mascot']
+              select: ['mascot', 'name']
             }
           })
           .exec(function (err, user) {

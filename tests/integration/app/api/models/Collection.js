@@ -17,6 +17,10 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false
     },
+    shared: {
+      type: 'boolean',
+      defaultsTo: false
+    },
     user: {
       model: 'User'
     },
