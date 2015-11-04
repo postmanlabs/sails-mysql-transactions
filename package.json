@@ -34,7 +34,7 @@
     "newman": "^1.2.15"
   },
   "scripts": {
-    "postinstall": "scripts/postinstall.sh",
-    "test": "scripts/test.sh"
+    "postinstall": "node scripts/postinstall.sh",
+    "test": "node scripts/test.sh"
   }
 }
