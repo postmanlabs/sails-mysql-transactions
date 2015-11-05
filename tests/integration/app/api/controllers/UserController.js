@@ -141,7 +141,14 @@ module.exports = {
         }
 
         User.transact(transaction).findOne(users[0].id)
-          .populate('collections')
+          .populateSome({
+            collections: {
+              select: ['name']
+            },
+            teams: {
+              select: ['mascot', 'name']
+            }
+          })
           .exec(function (err, user) {
             if (err) {
               transaction.rollback();

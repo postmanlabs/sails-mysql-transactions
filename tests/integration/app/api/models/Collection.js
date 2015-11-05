@@ -16,9 +16,17 @@ module.exports = {
     user: {
       model: 'User'
     },
+    fancy: {
+      type: 'boolean',
+      defaultsTo: false
+    },
     requests: {
       collection: 'Request',
       via: 'collection'
+    },
+    shared: {
+      type: 'boolean',
+      defaultsTo: false
     }
   },
 
