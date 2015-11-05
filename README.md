@@ -189,11 +189,16 @@ route = function (req, res) {
 };
 ```
 
-## Additional Configurations
+## Additional Configurations and Features
 
-`queryCaseSensitive` when set to true, disables the feature where waterline performs case insensitive queries. (Note
+1. `queryCaseSensitive` when set to true, disables the feature where waterline performs case insensitive queries. (Note
 that it ises `wlNext` options for waterline-sequel.)
 
+2. The bundled waterline adds additional feature to do the following
+  - `Model.<function:operate>().populateSome(Object<association:criteria>);` allows you to populate multiple 
+    associations in one call. It also accepts array of associations as argument
+  - `.populate` on Models accepts `select: []` as part of criteria parameter.
+  - Model deletion does not fetch full model data during deletion.
 
 ## Contributing
 
