@@ -4,6 +4,10 @@ node_js:
   - '0.12'
   - '0.10'
 
+addons:
+  code_climate:
+    repo_token: afc20e1ecaceba7cc4e2006bb16c95f4db7b962ea57d43877a144c08929df0dd
+
 before_script:
   - mysql -e 'create database `sails_transactions`;'
 
