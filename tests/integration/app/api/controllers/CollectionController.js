@@ -6,6 +6,13 @@
  */
 
 module.exports = {
-	
+  retrieve: function (req, res) {
+    Collection.findOne(req.param('id')).populate('user', {select: ['id']}).exec(function (err, collection) {
+      if (err) {
+        return res.serverError(err);
+      }
+      res.json(collection);
+    });
+  },
 };
 
