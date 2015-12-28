@@ -8,6 +8,16 @@
 var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
+  analytics: function (req, res) {
+    User.readonly('set1').count(function (err, count) {
+      if (err) {
+        return res.serverError(err);
+      }
+      res.json({
+        users: count
+      });
+    });
+  },
 
   retrieve: function (req, res) {
     User.readonly('set1').findOne(req.param('id')).exec(function (err, user) {

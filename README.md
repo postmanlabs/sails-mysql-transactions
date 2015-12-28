@@ -183,9 +183,10 @@ replication source databases. This distributes your database workloads across mu
 Readonly still works without read replica using the normal non-transactional connection set.
 
 ```javascript
-route = function (req, res) {
+action = function (req, res) {
   OneModel.readonly().find();
   OneModel.readonly().findOne();
+  OneModel.readonly().count();
 };
 ```
 
