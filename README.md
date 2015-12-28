@@ -55,12 +55,12 @@ module.exports = {
   /* your other config stay as is */
   
   connections: {
-		mySQLT: {
-			adapter: 'sails-mysql-transactions',
-			host: '{{your-db-host}}',
-			user: '{{your-db-username}}',
-			password: '{{your-db-password}}',
-			database: '{{your-db-tablename}}',
+    mySQLT: {
+      adapter: 'sails-mysql-transactions',
+      host: '{{your-db-host}}',
+      user: '{{your-db-username}}',
+      password: '{{your-db-password}}',
+      database: '{{your-db-tablename}}',
 
       transactionConnectionLimit: 10,
       rollbackTransactionOnError: true,
@@ -83,12 +83,12 @@ module.exports = {
           }
         }
       }
-		}
-	},
+    }
+  },
 
-	models: {
-		connection: 'mySQLT'
-	}
+  models: {
+    connection: 'mySQLT'
+  }
 }
 ```
 
@@ -148,14 +148,15 @@ module.exports = {
 
 ```javascript
 route = function (req, res) {
-	Transaction.start(function (err, transaction) {
-		OneModel.transact(transaction).create(/* ... */);
-		OneModel.transact(transaction).update(/* ... */);
-		OneModel.transact(transaction).find(/* ... */);
-		OneModel.transact(transaction).findOrCreate(/* ... */);
-		OneModel.transact(transaction).findOne(/* ... */);
-		OneModel.transact(transaction).destroy(/* ... */);
-	});
+  Transaction.start(function (err, transaction) {
+    OneModel.transact(transaction).create(/* ... */);
+    OneModel.transact(transaction).update(/* ... */);
+    OneModel.transact(transaction).find(/* ... */);
+    OneModel.transact(transaction).findOrCreate(/* ... */);
+    OneModel.transact(transaction).findOne(/* ... */);
+    OneModel.transact(transaction).destroy(/* ... */);
+    OneModel.transact(transaction).count(/* ... */);
+  });
 };
 ```
 
