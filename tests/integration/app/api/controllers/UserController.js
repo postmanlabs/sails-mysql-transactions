@@ -9,12 +9,19 @@ var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
   analytics_readonly: function (req, res) {
-    User.readonly('set1').count(function (err, count) {
+    User.readonly('set1').count().exec(function (err, count) {
       if (err) {
         return res.serverError(err);
       }
-      res.json({
-        users: count
+
+      Collection.readonly().count(function (err, collectionCount) {
+        if (err) {
+          return res.serverError(err);
+        }
+        res.json({
+          users: count,
+          collections: collectionCount
+        });
       });
     });
   },
@@ -26,14 +33,14 @@ module.exports = {
         return res.serverError(err);
       }
 
-      User.transact(transaction).count(function (err, userCount) {
+      User.transact(transaction).count().exec(function (err, userCount) {
         if (err) {
           return transaction.rollback(function () {
             res.serverError(err);
           });
         }
 
-        Collection.transact(transaction).count(function (err, collectionCount) {
+        Collection.transact(transaction).count().exec(function (err, collectionCount) {
           if (err) { return transaction.rollback(function () { res.serverError(err); }); }
 
           transaction.commit(function (err) {
