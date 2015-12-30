@@ -7,7 +7,13 @@
 
 module.exports = {
   retrieve: function (req, res) {
-    Collection.findOne(req.param('id')).populate('user', {select: ['id']}).exec(function (err, collection) {
+    Collection.findOne({
+      select: ['name'],
+      where: {id: req.param('id')}
+    })
+    .populate('user', {select: ['name']})
+    .populate('requests', {select: ['name', 'collection', 'id']})
+    .exec(function (err, collection) {
       if (err) {
         return res.serverError(err);
       }
