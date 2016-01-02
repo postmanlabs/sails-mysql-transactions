@@ -8,6 +8,55 @@
 var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
+  analytics_readonly: function (req, res) {
+    User.readonly('set1').count().exec(function (err, count) {
+      if (err) {
+        return res.serverError(err);
+      }
+
+      Collection.readonly().count(function (err, collectionCount) {
+        if (err) {
+          return res.serverError(err);
+        }
+        res.json({
+          users: count,
+          collections: collectionCount
+        });
+      });
+    });
+  },
+
+  analytics: function (req, res) {
+    Transaction.start(function (err, transaction) {
+      if (err) {
+        transaction && transaction.rollback();
+        return res.serverError(err);
+      }
+
+      User.transact(transaction).count().exec(function (err, userCount) {
+        if (err) {
+          return transaction.rollback(function () {
+            res.serverError(err);
+          });
+        }
+
+        Collection.transact(transaction).count().exec(function (err, collectionCount) {
+          if (err) { return transaction.rollback(function () { res.serverError(err); }); }
+
+          transaction.commit(function (err) {
+            if (err) { return res.serverError(err); }
+            res.json({
+              count: {
+                users: userCount,
+                collections: collectionCount
+              }
+            });
+          });
+        });
+      });
+
+    });
+  },
 
   retrieve: function (req, res) {
     User.readonly('set1').findOne(req.param('id')).exec(function (err, user) {

@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Sails ORM adapter for mySQL with transaction and replication support",
   "main": "index.js",
   "repository": {
@@ -24,7 +24,7 @@
   "dependencies": {
     "lodash": "3.5.0",
     "mysql": "2.6.2",
-    "sails-mysql": "git+https://github.com/postmanlabs/sails-mysql.git#v0.10.12-postman.3"
+    "sails-mysql": "git+https://github.com/postmanlabs/sails-mysql.git#v0.10.12-postman.5"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
