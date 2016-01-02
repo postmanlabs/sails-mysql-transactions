@@ -6,6 +6,19 @@
  */
 
 module.exports = {
-	
+  retrieve: function (req, res) {
+    Collection.findOne({
+      select: ['name'],
+      where: {id: req.param('id')}
+    })
+    .populate('user', {select: ['name']})
+    .populate('requests', {select: ['name', 'collection', 'id']})
+    .exec(function (err, collection) {
+      if (err) {
+        return res.serverError(err);
+      }
+      res.json(collection);
+    });
+  },
 };
 
