@@ -142,6 +142,16 @@ module.exports = {
         return res.json(team);
       });
     });
+  },
+
+  find_selective: function (req, res) {
+    Team.readonly('set1').findOne(req.param('id')).populate('members', {select: ['id']}).exec(function (err, team) {
+      if (err) {
+        return res.serverError(err);
+      }
+
+      return res.json(team);
+    });
   }
 };
 
