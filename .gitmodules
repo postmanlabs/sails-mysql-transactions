@@ -2,3 +2,7 @@
 	path = waterline
 	url = https://shamasis@github.com/postmanlabs/sails-mysql-transactions-waterline.git
 	branch = master-postman
+[submodule "sails-mysql"]
+	path = sails-mysql
+	url = https://github.com/postmanlabs/sails-mysql.git
+	branch = master-postman
