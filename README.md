@@ -191,6 +191,12 @@ action = function (req, res) {
 };
 ```
 
+## Support to retrieve changesets during update operations
+
+Since `sails-mysql` makes a `SELECT` query before every update; it makes sense that the query results can be utilised to
+return the changeset when a model is updated. The third parameter of `.update` returns an array having objects that
+contain only the fields that have changed and that too with their original values.
+
 ## Additional Configurations and Features
 
 1. `queryCaseSensitive` when set to true, disables the feature where waterline performs case insensitive queries. (Note
