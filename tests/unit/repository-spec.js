@@ -53,7 +53,7 @@ describe('repository', function () {
                     props[prop] = {
                         base: (propBase = prop.substr(0, prop.indexOf('-') > -1 ?
                             prop.indexOf('-') : undefined)),
-                        path: 'scripts/' + propBase + '.sh'
+                        path: 'scripts/' + propBase + '.js'
                     };
                     expect(fs.existsSync(props[prop].path)).to.be.ok();
                 }
@@ -64,21 +64,22 @@ describe('repository', function () {
                 expect(fs.existsSync(props.postinstall.path)).to.be.ok();
             });
 
-            it('must be defined as per standards `[script]: scripts/[name].sh`', function () {
+            it('must be defined as per standards `[script]: scripts/[name].js`', function () {
                 for (var prop in json.scripts) {
                     expect(json.scripts[prop]).to.match(new RegExp(props[prop].path, 'g'));
                 }
             });
 
-            it('must have the hashbang defined', function () {
-                var fileContent,
-                    prop;
-
-                for (prop in json.scripts) {
-                    fileContent = fs.readFileSync(props[prop].path).toString();
-                    expect(/^#!\/(bin\/bash|usr\/bin\/env\s(node|bash))[\r\n][\W\w]*$/g.test(fileContent)).to.be.ok();
-                }
-            });
+            // it('must have the hashbang defined', function () {
+            //   var fileContent,
+            //       hashbang = /^#!\/(bin\/bash|usr\/bin\/env\s(node|bash))[\r\n][\W\w]*$/g,
+            //       prop;
+            //
+            //   for (prop in json.scripts) {
+            //       fileContent = fs.readFileSync(props[prop].path).toString();
+            //       expect(hashbang.test(fileContent)).to.be.ok();
+            //   }
+            // });
         });
 
         describe('devDependencies', function () {

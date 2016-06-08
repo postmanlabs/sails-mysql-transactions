@@ -26,8 +26,8 @@
     "winston": "2.1.1"
   },
   "scripts": {
-    "postinstall": "npm install ../../../;",
-    "start": "pm2 start app.js",
+    "postinstall": "npm install ../../../",
+    "start": "pm2 start app.js -f",
     "stop": "pm2 delete app.js",
     "debug": "node debug app.js"
   },
