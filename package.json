@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Sails ORM adapter for mySQL with transaction and replication support",
   "main": "index.js",
   "repository": {
