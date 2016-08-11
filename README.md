@@ -208,6 +208,18 @@ that it ises `wlNext` options for waterline-sequel.)
   - `.populate` on Models accepts `select: []` as part of criteria parameter.
   - Model deletion does not fetch full model data during deletion.
 
+3. An additional asynchronous function `fromObject()` which creates a model instance based on the model attributes. 
+  -   This function accepts the attributes object and the callback function as the parameter.
+  -   The callback function will receive the error object and the Model Instance object
+
+```javascript
+OneModel.fromObject(attributesObject, function (err, instance) {
+    if (err) { return Error; }
+    
+    // instance is the required object
+});
+``` 
+
 ## Contributing
 
 Contribution is accepted in form of Pull Requests that passes Travis CI tests. You should install this repository using
