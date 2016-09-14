@@ -25,7 +25,7 @@
     "async": "~0.9.0",
     "lodash": "~3.8.0",
     "mysql": "~2.6.1",
-    "newman": "^2.0.3",
+    "newman": "^3.1.0",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0",
     "waterline-sequel": "git+https://github.com/postmanlabs/waterline-sequel.git#v0.5.1-postman.3"

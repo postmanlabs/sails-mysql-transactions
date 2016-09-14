@@ -34,6 +34,6 @@
   "main": "app.js",
   "license": "No License",
   "devDependencies": {
-    "pm2": "^0.15.7"
+    "pm2": "^1.1.3"
   }
 }
