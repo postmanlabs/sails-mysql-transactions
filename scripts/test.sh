@@ -5,6 +5,16 @@ set -e;
 # location of integration test server
 INTEGRATION_APP_DIR=tests/integration/app;
 
+# function to be called on exit
+# and ensure cleanup is called before the script exits
+function cleanup {
+    pushd "${INTEGRATION_APP_DIR}" > /dev/null;
+    npm stop;
+    popd > /dev/null;
+}
+
+trap cleanup EXIT;
+
 # ===========================================================
 echo "Starting integration test server...";
 pushd "${INTEGRATION_APP_DIR}" > /dev/null;
@@ -52,10 +62,7 @@ echo "Running integration tests...";
 
 # execute newman
 # server should be up and running on localhost:1337
-newman -s -c tests/integration/sanity.json.postman_collection \
+newman run tests/integration/sanity.json.postman_collection \
        -e tests/integration/sails-transactions-experiment.postman_environment;
 
-pushd "${INTEGRATION_APP_DIR}" > /dev/null;
-npm stop;
-popd > /dev/null;
 # ===========================================================

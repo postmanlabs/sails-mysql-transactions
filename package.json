@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.8.3",
+  "version": "0.9.0-beta.1",
   "description": "Sails ORM adapter for mySQL with transaction and replication support",
   "main": "index.js",
   "repository": {
@@ -25,7 +25,6 @@
     "async": "~0.9.0",
     "lodash": "~3.8.0",
     "mysql": "~2.6.1",
-    "newman": "^2.0.3",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0",
     "waterline-sequel": "git+https://github.com/postmanlabs/waterline-sequel.git#v0.5.1-postman.3"
@@ -35,6 +34,7 @@
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
     "mocha": "^2.2.1",
+    "newman": "^3.1.0",
     "waterline-adapter-tests": "~0.10.7",
     "captains-log": "~0.11.5"
   },
