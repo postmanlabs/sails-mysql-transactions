@@ -16,7 +16,7 @@ fi;
 
 # Check whether sails has been already installed or not. If not, this is an
 # error and we should not proceed.
-if [ ! -d "${MOD_DIR}node_modules/sails" ] && [ ! -d "${MOD_DIR}node_modules/waterline" ]; then
+if [ ! -d "../../node_modules/sails" ] && [ ! -d "../../node_modules/waterline" ]; then
     echo -e "\033[1;31m";
     echo "${INFO} Sails and waterline installation not found!";
     echo "${INFO} Ensure your package.json, which has sails-mysql-transaction, also includes sails.";
@@ -24,7 +24,7 @@ if [ ! -d "${MOD_DIR}node_modules/sails" ] && [ ! -d "${MOD_DIR}node_modules/wat
     exit 1;
 fi
 
-if [ ! -d "${MOD_DIR}node_modules/waterline" ] && [ -d "${MOD_DIR}node_modules/sails-mysql" ]; then
+if [ ! -d "../../node_modules/waterline" ] && [ -d "../../node_modules/sails-mysql" ]; then
     echo -e "\033[1;31m";
     echo "${INFO} WARNING - detected sails-mysql.";
     echo "${INFO} You may face unexpected behaviour.";
@@ -33,11 +33,11 @@ if [ ! -d "${MOD_DIR}node_modules/waterline" ] && [ -d "${MOD_DIR}node_modules/s
 fi
 
 
-if [ -d "${MOD_DIR}node_modules/waterline" ]; then
+if [ -d "../../node_modules/waterline" ]; then
     echo "${INFO} Injecting waterline into sails...";
-    pushd "${MOD_DIR}" > /dev/null;
+    pushd "../../" > /dev/null;
     npm remove waterline;
-    npm install "${MOD_DIR}node_modules/sails-mysql-transactions/waterline";
+    npm install "node_modules/sails-mysql-transactions/waterline";
     popd > /dev/null;
     
     echo
@@ -46,11 +46,11 @@ if [ -d "${MOD_DIR}node_modules/waterline" ]; then
     exit 0;
 fi
 
-if [ -d "${MOD_DIR}node_modules/sails" ]; then
+if [ -d "../../node_modules/sails" ]; then
     echo "${INFO} Injecting waterline into sails...";
-    pushd "${MOD_DIR}node_modules/sails" > /dev/null;
+    pushd "../../node_modules/sails" > /dev/null;
     npm remove waterline;
-    npm install "${MOD_DIR}/sails-mysql-transactions/waterline";
+    npm install "../sails-mysql-transactions/waterline";
     popd > /dev/null;
     
     echo
