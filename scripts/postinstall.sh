@@ -2,8 +2,6 @@
 
 INFO="sails-mysql-transactions:"; # for console logs
 
-MOD_DIR="../../";
-
 set -e;
 
 # If this is an NPM installation, we do not expect `.gitmodules` in the directory
