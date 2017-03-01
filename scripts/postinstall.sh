@@ -31,13 +31,21 @@ if [ ! -d "../../node_modules/waterline" ] && [ -d "../../node_modules/sails-mys
 fi
 
 
+# most likely npm3
 if [ -d "../../node_modules/waterline" ]; then
     echo "${INFO} Injecting waterline into sails...";
     pushd "../../" > /dev/null;
     npm remove waterline;
     npm install "node_modules/sails-mysql-transactions/waterline";
+
+    if [ -d "node_modules/sails/node_modules/waterline" ]; then
+        pushd "node_modules/sails" > /dev/null;
+        npm remove waterline;
+        popd > /dev/null;
+    fi
+
     popd > /dev/null;
-    
+
     echo
     echo "${INFO} Installation successful.";
     echo
@@ -50,7 +58,7 @@ if [ -d "../../node_modules/sails" ]; then
     npm remove waterline;
     npm install "../sails-mysql-transactions/waterline";
     popd > /dev/null;
-    
+
     echo
     echo "${INFO} Installation successful.";
     echo
