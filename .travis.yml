@@ -1,7 +1,8 @@
 language: node_js
 
 node_js:
-  - '4.3.0'
+  - '4'
+  - '6'
 
 before_script:
   - mysql -e 'create database `sails_transactions`;'
