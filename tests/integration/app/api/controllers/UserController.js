@@ -8,6 +8,55 @@
 var Transaction = require('sails-mysql-transactions').Transaction;
 
 module.exports = {
+  create_using_query: function (req, res) {
+    Transaction.start(function (err, transaction) {
+      if (err) { return res.serverError(err); }
+
+      User.transact(transaction).query("INSERT INTO `user` (`name`, `id`, `admin`, `createdAt`, `updatedAt`) values ('user-create', '1', false, '2017-06-08 12:34:26', '2017-06-08 12:34:26')", function (err, result, fields) {
+        transaction.commit();
+        if (err) { return res.serverError(err); }
+
+        res.json({
+          result: result,
+          fields: fields
+        });
+      })
+    });
+  },
+
+  retrieve_using_query: function (req, res) {
+    Transaction.start(function (err, transaction) {
+      if (err) { return res.serverError(err); }
+
+      User.transact(transaction).query('SELECT * FROM `user`', function (err, result, fields) {
+        transaction.commit();
+        if (err) { return res.serverError(err); }
+
+        res.json({
+          result: result,
+          fields: fields
+        });
+      })
+    });
+  },
+
+  delete_using_query: function (req, res) {
+    Transaction.start(function (err, transaction) {
+      if (err) { return res.serverError(err); }
+
+      User.transact(transaction).query('DELETE FROM `user` WHERE `id`=1', function (err, result, fields) {
+        transaction.commit();
+        if (err) { return res.serverError(err); }
+
+        transaction.commit();
+        res.json({
+          result: result,
+          fields: fields
+        });
+      })
+    });
+  },
+
   analytics_readonly: function (req, res) {
     User.readonly('set1').count().exec(function (err, count) {
       if (err) {
