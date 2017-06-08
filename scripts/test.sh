@@ -62,7 +62,7 @@ echo "Running integration tests...";
 
 # execute newman
 # server should be up and running on localhost:1337
-newman run tests/integration/sanity.json.postman_collection \
+newman run https://www.getpostman.com/collections/273a69585877f3d2b67a \
        -e tests/integration/sails-transactions-experiment.postman_environment;
 
 # ===========================================================
