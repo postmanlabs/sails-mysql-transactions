@@ -1,0 +1,18 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - waterline-adapter-tests > mocha > debug:
+        patched: '2018-08-18T02:43:25.804Z'
+  'npm:lodash:20180130':
+    - jscs > xmlbuilder > lodash:
+        patched: '2018-08-18T02:43:25.804Z'
+    - waterline-adapter-tests > waterline > switchback > lodash:
+        patched: '2018-08-18T02:43:25.804Z'
+    - waterline-adapter-tests > waterline > waterline-schema > lodash:
+        patched: '2018-08-18T02:43:25.804Z'
+  'npm:ms:20170412':
+    - waterline-adapter-tests > mocha > debug > ms:
+        patched: '2018-08-18T02:43:25.804Z'
