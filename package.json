@@ -36,7 +36,7 @@
     "mocha": "^2.2.1",
     "newman": "^3.1.0",
     "waterline-adapter-tests": "~0.10.7",
-    "captains-log": "~0.11.5"
+    "captains-log": "~1.0.0"
   },
   "scripts": {
     "postinstall": "scripts/postinstall.sh",
