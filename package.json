@@ -1,6 +1,6 @@
 {
   "name": "sails-mysql-transactions",
-  "version": "0.8.3-hotfix.4",
+  "version": "0.8.3-hotfix.4-uuidv4",
   "description": "Sails ORM adapter for mySQL with transaction and replication support",
   "main": "index.js",
   "repository": {
@@ -25,6 +25,7 @@
     "async": "~0.9.0",
     "lodash": "^3.10.1",
     "mysql": "^2.14.1",
+    "uuid": "3.3.3",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0",
     "waterline-sequel": "git+https://github.com/postmanlabs/waterline-sequel.git#v0.5.1-postman.3"
