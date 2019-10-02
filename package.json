@@ -34,7 +34,7 @@
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
     "mocha": "^2.2.1",
-    "newman": "^3.1.0",
+    "newman": "^4.5.5",
     "waterline-adapter-tests": "~0.10.7",
     "captains-log": "~0.11.5"
   },
