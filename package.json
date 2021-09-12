@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "jscs": "^1.11.3",
+    "jscs": "^2.0.0",
     "jshint": "^2.6.3",
     "mocha": "^2.2.1",
     "newman": "^3.1.0",
