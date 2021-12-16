@@ -27,19 +27,23 @@
     "mysql": "~2.6.1",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0",
-    "waterline-sequel": "git+https://github.com/postmanlabs/waterline-sequel.git#v0.5.1-postman.3"
+    "waterline-sequel": "git+https://github.com/postmanlabs/waterline-sequel.git#v0.5.1-postman.3",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "jscs": "^1.11.3",
+    "jscs": "^2.5.0",
     "jshint": "^2.6.3",
     "mocha": "^2.2.1",
     "newman": "^3.1.0",
-    "waterline-adapter-tests": "~0.10.7",
+    "waterline-adapter-tests": "~1.0.0",
     "captains-log": "~0.11.5"
   },
   "scripts": {
     "postinstall": "scripts/postinstall.sh",
-    "test": "scripts/test.sh"
-  }
+    "test": "scripts/test.sh",
+    "prepublish": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
+  },
+  "snyk": true
 }
