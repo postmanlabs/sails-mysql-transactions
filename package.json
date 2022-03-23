@@ -33,10 +33,10 @@
     "expect.js": "^0.3.1",
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
-    "mocha": "^2.2.1",
+    "mocha": "^6.2.3",
     "newman": "^3.1.0",
     "waterline-adapter-tests": "~0.10.7",
-    "captains-log": "~0.11.5"
+    "captains-log": "~2.0.2"
   },
   "scripts": {
     "postinstall": "scripts/postinstall.sh",
