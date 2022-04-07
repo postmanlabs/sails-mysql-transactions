@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/postmanlabs/sails-mysql-transactions",
   "dependencies": {
-    "async": "~0.9.0",
+    "async": "~3.2.2",
     "lodash": "~3.8.0",
     "mysql": "~2.6.1",
     "waterline-cursor": "~0.0.5",
@@ -34,7 +34,7 @@
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
     "mocha": "^2.2.1",
-    "newman": "^3.1.0",
+    "newman": "^5.3.1",
     "waterline-adapter-tests": "~0.10.7",
     "captains-log": "~0.11.5"
   },
